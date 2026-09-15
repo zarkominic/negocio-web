@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Nombre de la agencia] — Pisos en [zona]</title>
+<meta name="description" content="[Una frase: qué tipo de inmuebles y dónde.]">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+<header class="cab">
+  <a class="marca" href="#inicio">[Nombre de la agencia]</a>
+  <nav><a href="#propiedades">Propiedades</a><a href="#vender">Vender</a><a href="#contacto" class="cta">Contacto</a></nav>
+</header>
+
+<!-- ═══ HERO: la zona desde el aire, y la búsqueda ═══ -->
+<section id="inicio" class="hero">
+  <img class="foto" src="img/hero.jpg" alt="">
+  <div class="velo"></div>
+  <div class="hero-texto">
+    <h1>[Pisos en [zona], vistos de verdad.]</h1>
+    <p>[Una frase: cuántos años, qué barrios, qué os distingue.]</p>
+  </div>
+  <form class="busca" id="busca" onsubmit="return false">
+    <label>Tipo<select id="fTipo"><option value="">Todos</option><option>Piso</option><option>Ático</option><option>Casa</option></select></label>
+    <label>Zona<select id="fZona"><option value="">Todas</option></select></label>
+    <label>Precio máx.<select id="fPrecio"><option value="">Sin límite</option><option value="300000">300.000 €</option><option value="500000">500.000 €</option><option value="800000">800.000 €</option></select></label>
+    <label>Habitaciones<select id="fHab"><option value="">Cualquiera</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></label>
+  </form>
+</section>
+
+<!-- ═══ PROPIEDADES: la rejilla se genera desde js/datos.js ═══ -->
+<section id="propiedades" class="bloque">
+  <div class="bloque-cab"><h2>Propiedades</h2><p id="cuenta" class="sec"></p></div>
+  <div class="rejilla" id="rejilla"></div>
+  <p class="vacio" id="vacio" hidden>No hay nada con esos filtros. Prueba a quitar alguno.</p>
+</section>
+
+<!-- ═══ VENDER: tres pasos ═══ -->
+<section id="vender" class="bloque oscuro">
+  <div class="bloque-cab"><h2>[¿Vendes? Así lo hacemos.]</h2></div>
+  <ol class="pasos">
+    <li><b>01</b><h3>[Valoración]</h3><p>[Visitamos, comparamos con ventas reales de la zona y te damos un precio con argumentos, en 48 h.]</p></li>
+    <li><b>02</b><h3>[Fotos y ficha]</h3><p>[Fotografía profesional, plano y una ficha que se entiende.]</p></li>
+    <li><b>03</b><h3>[Visitas y cierre]</h3><p>[Filtramos, acompañamos las visitas y negociamos por ti.]</p></li>
+  </ol>
+</section>
+
+<!-- ═══ CONTACTO ═══ -->
+<section id="contacto" class="bloque contacto">
+  <div><h2>[¿Buscas o vendes?]</h2><p class="sec">[Escríbenos o llama. Respondemos nosotros.]</p></div>
+  <div class="datos"><a href="mailto:[correo]">[correo@agencia.es]</a><a href="tel:[telefono]">[+34 900 000 000]</a><a href="https://wa.me/[numero]">WhatsApp</a><address>[Calle y número], [Ciudad]</address></div>
+</section>
+
+<footer><span>© [Año] [Nombre de la agencia]. Todos los derechos reservados. Fotografías protegidas por derechos de autor.</span><nav><a href="#">Aviso legal</a><a href="#">Privacidad</a></nav></footer>
+
+<!-- ═══ FICHA + GALERÍA: pantalla completa, deslizar en móvil, flechas en ordenador ═══ -->
+<div class="ficha" id="ficha" hidden>
+  <button class="cerrar" id="cerrar" type="button" aria-label="Cerrar">×</button>
+  <div class="galeria" id="galeria">
+    <button class="nav prev" id="prev" type="button" aria-label="Anterior">‹</button>
+    <div class="pista" id="pista"></div>
+    <button class="nav next" id="next" type="button" aria-label="Siguiente">›</button>
+    <div class="contador" id="contador"></div>
+  </div>
+  <div class="miniaturas" id="miniaturas"></div>
+  <div class="ficha-datos">
+    <div><p class="ante" id="fZonaTxt"></p><h2 id="fTitulo"></h2><p id="fDesc"></p></div>
+    <div class="ficha-lado"><b id="fPrecioTxt"></b><ul id="fDatos"></ul><a class="boton" href="#contacto" id="fContacto">Pedir visita</a></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="js/datos.js"></script>
+<script src="js/sitio.js"></script>
+</body>
+</html>

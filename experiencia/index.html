@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<link rel="preload" as="image" href="img/persiana_a.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Negocio — Webs y software para negocios locales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root{--pared:#efe9df;--tinta:#1a1a1a;--acento:#1F3F9E;--cobalto:#1b2f7a;--gris:#6f6a62;--margen:6vw}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{overflow-x:hidden}
+  body{background:var(--pared);color:var(--tinta);font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:clamp(1.15rem,.5vw + .95rem,1.55rem);line-height:1.45;-webkit-font-smoothing:antialiased}
+  /* la pared: encalado con grano */
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.32 0 0 0 0 0.28 0 0 0 .18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acento);color:#fff}
+  @media (pointer:fine){
+    body,a,button{cursor:none}
+    .cursor{position:fixed;left:0;top:0;width:12px;height:12px;border-radius:50%;background:#fff;pointer-events:none;z-index:999;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s;mix-blend-mode:difference}
+    .cursor.grande{width:56px;height:56px;opacity:.9}
+    .cursor.tiza{width:38px;height:9px;border-radius:5px;background:#f3efe3;mix-blend-mode:normal;transform:translate(-50%,-50%) rotate(-38deg);box-shadow:0 0 8px rgba(255,255,255,.35),inset 0 0 2px rgba(0,0,0,.25)}
+  }
+  @media (pointer:coarse){.cursor{display:none}}
+
+  /* ── LA PERSIANA 3D ────────────────────────── */
+  #cierre{position:fixed;inset:0;z-index:50;background:linear-gradient(180deg,#0e0f11 0,#0e0f11 6%,#1c1e22 6.4%,transparent 7%)}
+  #cierre canvas{display:block;width:100%;height:100%}
+  #cierre .plano{position:absolute;inset:0;background:url("img/persiana_a.jpg") center/cover;display:none}   /* solo si no hay 3D */
+  #cierre.cargando{background:#0e0f11}   /* oscuro hasta que el 3D esta listo: nada que cambie de aspecto */
+  #cierre .plano .tag{position:absolute;left:5vw;bottom:14vh;font-weight:800;font-size:clamp(3.4rem,15vw,17rem);line-height:.85;letter-spacing:-.04em;color:var(--acento);transform:rotate(-3deg);mix-blend-mode:multiply;opacity:.92}
+  #cierre .abrir{position:absolute;right:var(--margen);bottom:6vh;z-index:4;color:#fff;font:inherit;font-size:1rem;background:rgba(0,0,0,.55);padding:.75rem 1.2rem;border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(4px)}
+  #cierre .abrir span{display:inline-block;animation:sube 1.4s ease-in-out infinite}
+  #cierre .sonido{position:absolute;left:var(--margen);bottom:6vh;z-index:4;color:rgba(255,255,255,.8);font:inherit;font-size:.95rem;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.4);padding:.2rem 0}
+  @keyframes sube{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  #polvo{position:fixed;inset:0;z-index:51;pointer-events:none}
+  #musica{position:fixed;right:var(--margen);bottom:4vh;z-index:60;width:52px;height:52px;border-radius:50%;border:1px solid rgba(0,0,0,.25);background:rgba(255,255,255,.75);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:0 0 15px;opacity:0;transition:opacity .5s,transform .3s}
+  #musica:hover{transform:scale(1.06)}
+  #musica i{display:block;width:3px;height:6px;background:var(--acento);border-radius:2px;transition:height .12s}
+  #musica.apagada i{height:3px;opacity:.45}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:baseline;padding:1.6rem var(--margen);font-size:1.1rem;mix-blend-mode:difference;color:#fff;opacity:0}
+  header nav a{margin-left:2rem;position:relative}
+  header nav a::after{content:"";position:absolute;left:0;right:100%;bottom:-.15em;height:2px;background:currentColor;transition:right .35s cubic-bezier(.65,0,.35,1)}
+  header nav a:hover::after{right:0}
+  #smooth-content{position:relative;z-index:1}
+  section{min-height:100vh;padding:20vh var(--margen) 12vh;display:flex;flex-direction:column;justify-content:center;position:relative}
+  h1,h2{font-weight:500;letter-spacing:-.02em;line-height:.95;font-variation-settings:"opsz" 96}
+  h1{font-size:clamp(3rem,11vw,12rem)}
+  h2{font-size:clamp(2.4rem,5.4vw,5.6rem);max-width:16ch}
+  p{max-width:60ch}.sec{color:var(--gris)}.separa{margin-top:2.4rem}.acento{color:var(--acento)}
+  .revela .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em;margin-bottom:-.08em}
+  .revela .w > i{display:inline-block;font-style:normal;transform:translateY(105%)}
+  #portada h1 .w > i{transform:translateY(110%)}
+
+  /* ── PORTADA: el local ─────────────────────── */
+  #portada{padding:0;min-height:100vh;overflow:hidden;justify-content:flex-end}
+  #portada .foto{position:absolute;inset:-12% 0;background:url("img/interior_b.jpg") center/cover no-repeat}
+  #portada .velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,16,.05) 30%,rgba(20,18,16,.72))}
+  #portada .texto{position:relative;padding:0 var(--margen) 12vh;color:#fff;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:4vw;align-items:end}
+  #portada h1{max-width:none;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+  #portada .sub{margin:0 0 .6em;opacity:0;color:rgba(255,255,255,.82);max-width:36ch;justify-self:end}
+  @media (max-width:820px){#portada .texto{grid-template-columns:1fr}#portada .sub{justify-self:start}}
+
+  /* ── WEBS: el escaparate ───────────────────── */
+  #webs{padding:0;display:block;min-height:auto;background:#141416}
+  #webs .escena{height:100vh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:0 var(--margen)}
+  #webs .cristal{position:absolute;inset:-10% 0;background:url("img/escaparate.jpg") center/cover no-repeat}
+  #webs .velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.5));z-index:0}
+  #webs .frase{position:absolute;left:var(--margen);right:var(--margen);opacity:0;color:#fff;font-weight:500;letter-spacing:-.02em;line-height:.95;font-size:clamp(2.4rem,6.2vw,7rem);font-variation-settings:"opsz" 96;max-width:18ch;text-shadow:0 2px 30px rgba(0,0,0,.45);z-index:1}
+  #webs .frase.derecha{left:auto;text-align:right;margin-left:auto}
+  #webs .frase.centro{max-width:none;text-align:center;font-size:clamp(3rem,9vw,11rem)}
+  #webs .frase.final{color:#fff}
+  #webs .frase.final b{color:#fff;font-weight:800;background:var(--acento);padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  #webs .rail{position:absolute;left:var(--margen);bottom:10vh;height:2px;width:20vw;background:rgba(255,255,255,.25);z-index:1}
+  #webs .rail i{display:block;height:100%;width:0;background:#fff}
+
+  /* ── SOFTWARE: la trastienda, a pantalla completa ── */
+  #software{padding:0;min-height:100vh;overflow:hidden;justify-content:center;color:#fff}
+  #software .fondo{position:absolute;inset:-12% 0;background:url("img/trastienda.jpg") center/cover no-repeat}
+  #software .velo{position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,12,10,.82) 0%,rgba(15,12,10,.6) 45%,rgba(15,12,10,.15) 100%)}
+  #software .fila{position:relative;padding:18vh var(--margen) 14vh;max-width:64ch}
+  #software .sec{color:rgba(255,255,255,.75)}
+  .casos{list-style:none;margin-top:3rem;border-top:1px solid rgba(255,255,255,.22)}
+  .casos li{border-bottom:1px solid rgba(255,255,255,.22);overflow:hidden}
+  .casos a{display:grid;grid-template-columns:1fr auto;align-items:baseline;padding:1.3rem 0;gap:2rem;transition:padding-left .35s cubic-bezier(.65,0,.35,1)}
+  .casos a:hover{padding-left:1rem}
+  .casos .que{font-size:clamp(1.3rem,2.2vw,2rem);font-weight:500;letter-spacing:-.01em}
+  .casos .estado{color:rgba(255,255,255,.7);font-size:1.05rem;white-space:nowrap}
+
+  /* la web desmontada */
+  #desmontada{position:fixed;inset:0;z-index:20;pointer-events:none;opacity:0}
+  #desmontada .reticula{position:absolute;inset:0;background-image:linear-gradient(to right,rgba(31,63,158,.14) 1px,transparent 1px),linear-gradient(to bottom,rgba(31,63,158,.14) 1px,transparent 1px);background-size:6vw 6vw}
+  #desmontada .caja{position:absolute;border:1px dashed var(--acento)}
+  #desmontada .caja::before{content:attr(data-tag);position:absolute;left:-1px;top:-1.4rem;font-size:.8rem;color:#fff;background:var(--acento);padding:.1rem .45rem;font-family:ui-monospace,Menlo,monospace}
+  #desmontada .nota{position:absolute;right:var(--margen);bottom:8vh;max-width:32ch;font-size:1rem;color:var(--acento);background:var(--pared);padding:1rem 1.2rem;border:1px solid var(--acento)}
+
+  /* ── COMO: la hoja en la pared ─────────────── */
+  #metodo .hoja{margin-top:3rem;max-width:62ch;background:#fbfaf6;padding:2.4rem 2.6rem 2rem;box-shadow:0 22px 44px rgba(40,30,20,.28),0 2px 4px rgba(0,0,0,.12);transform:rotate(-.8deg);position:relative}
+  #metodo .hoja::before{content:"";position:absolute;left:50%;top:-14px;width:110px;height:28px;margin-left:-55px;background:rgba(255,235,150,.55);transform:rotate(-2deg);box-shadow:0 1px 2px rgba(0,0,0,.15)}
+  .valid{list-style:none}
+  .valid li{display:grid;grid-template-columns:1.6rem 1fr;grid-template-rows:auto auto;column-gap:1rem;padding:.7rem 0;opacity:.14;transform:translateX(-12px);border-bottom:1px dashed rgba(0,0,0,.14)}
+  .valid li::before{content:"";grid-row:1 / span 2;width:.8rem;height:.8rem;border:2px solid var(--acento);margin-top:.5rem;background:var(--acento);box-shadow:inset 0 0 0 2px #fff}
+  .valid li b{grid-column:2;font-weight:500;font-size:1.25rem}.valid li span{grid-column:2;color:var(--gris);display:block;font-size:1rem;margin-top:.15rem}
+
+  /* ── DONDE: el mapa sobre la placa ─────────── */
+  #mapa{padding:0;display:block;min-height:auto}
+  #mapa .cab{padding:11vh var(--margen) 3vh}
+  #mapa .ficha{right:6%;top:10%}
+  #mapa .placa{position:relative;margin:0 var(--margen) 12vh;aspect-ratio:16/9;background:#f7f3ea;overflow:hidden;box-shadow:0 26px 50px rgba(40,30,20,.3),0 2px 4px rgba(0,0,0,.12);transform:rotate(.6deg);
+    background-image:linear-gradient(rgba(31,63,158,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(31,63,158,.07) 1px,transparent 1px);background-size:40px 40px}
+  #mapa .placa::before{content:"";position:absolute;left:50%;top:-14px;width:120px;height:30px;margin-left:-60px;background:rgba(255,235,150,.55);transform:rotate(1.5deg);box-shadow:0 1px 2px rgba(0,0,0,.15);z-index:2}
+  #mapa .placa::after{content:"Plano · negocios con los que trabajamos";position:absolute;left:1.4rem;bottom:1rem;font-size:.95rem;color:var(--gris)}
+  #mapa .lienzo{position:absolute;inset:0;overflow:hidden;touch-action:none}
+  #mapa svg{width:100%;height:100%;position:absolute;left:0;top:0}
+  #mapa .barrio{fill:#fff;stroke:#3d55a8;stroke-width:1.6}
+  #mapa .barrio.activo{fill:var(--cobalto);stroke:var(--cobalto)}
+  #mapa text{font-family:"Bricolage Grotesque",sans-serif;font-size:15px;fill:#45507a;pointer-events:none}
+  #mapa text.act{fill:var(--cobalto);font-weight:500}
+  #mapa .pista{position:absolute;left:var(--margen);bottom:5vh;color:var(--gris);font-size:1rem;pointer-events:none;margin-left:6vw}
+  #mapa .ficha{position:absolute;right:8%;top:8%;background:#fff;border:1px solid var(--cobalto);padding:1rem 1.2rem;max-width:28ch;opacity:0;pointer-events:none;font-size:1.1rem}
+  #mapa .ficha b{display:block;color:var(--cobalto);font-weight:500;font-size:1.2rem}
+
+  .grande{font-size:clamp(1.8rem,3.2vw,3.2rem);line-height:1.2;max-width:26ch;font-weight:400}
+  #quien{padding:0;min-height:100vh;overflow:hidden;color:#fff;justify-content:flex-end}
+  #quien .fondo{position:absolute;inset:-12% 0;background:url("img/puerta.jpg") center/cover no-repeat}
+  #quien .velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,8,6,.15) 35%,rgba(10,8,6,.8))}
+  #quien .dos{position:relative;padding:0 var(--margen) 12vh;align-items:end}
+  #quien .sec{color:rgba(255,255,255,.78)}
+
+  /* ── CONTACTO: el correo en la placa ───────── */
+  #contacto{padding:0;display:block;min-height:auto}
+  #contacto .cab{padding:11vh var(--margen) 3vh}
+  #contacto .placa{position:relative;margin:0 var(--margen) 14vh;aspect-ratio:16/9;background:url("img/azulejo.jpg") center/cover no-repeat;display:flex;align-items:center;justify-content:center}
+  #contacto a.correo{font-size:clamp(1.6rem,4.6vw,5.4rem);font-weight:500;letter-spacing:-.02em;color:var(--cobalto);position:relative;display:inline-block;transform:translateY(-4%)}
+  #contacto a.correo::after{content:"";position:absolute;left:0;right:100%;bottom:.02em;height:.06em;background:currentColor;transition:right .45s cubic-bezier(.65,0,.35,1)}
+  #contacto a.correo:hover::after{right:0}
+  footer{padding:3rem var(--margen);color:var(--gris);font-size:1.05rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+
+  @media (max-width:820px){
+    :root{--margen:7vw}section{padding:16vh var(--margen) 10vh}header nav a{margin-left:1.2rem}
+    .casos a{grid-template-columns:1fr}#software .fila{grid-template-columns:1fr;gap:3rem}
+    #mapa .placa,#contacto .placa{aspect-ratio:4/3}#mapa .lienzo{left:16%;top:18%;width:68%;height:64%}
+    #cierre .plano .tag{bottom:22vh}
+  }
+  @media (prefers-reduced-motion:reduce){#cierre,#polvo{display:none}.revela .w > i,#portada h1 .w > i{transform:none}#portada .sub{opacity:1}.valid li{opacity:1;transform:none}header{opacity:1}#webs .frase{position:static;opacity:1;margin-bottom:1.5rem}#webs .escena{height:auto;padding:20vh var(--margen) 12vh}#webs .rail{display:none}}
+
+  /* ── composicion a todo el ancho ─────────── */
+  .dos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6vw;align-items:center;width:100%}
+  .dos > *{min-width:0}
+  #software .fila{position:relative;padding:18vh var(--margen) 14vh;max-width:none}
+  #software .fila .dos{align-items:start}
+  #software .casos{margin-top:0}
+  #metodo{padding:0;display:block;min-height:auto}
+  #metodo .cab{padding:11vh var(--margen) 3vh}
+  #metodo .hoja{position:relative;margin:0 3vw 6vh;max-width:none;width:auto;aspect-ratio:16/9;min-height:80vh;
+    background:url("img/pizarra_c.jpg") center/cover no-repeat;padding:0;box-shadow:none;transform:none}
+  #metodo .tablero{position:absolute;left:15%;right:17%;top:13%;bottom:20%;display:flex;flex-direction:column}
+  #metodo .hoja::before{display:none}
+  #metodo .hoja .valid{background:transparent;padding:0;columns:auto;max-width:none;flex:1;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;column-gap:5vw;align-items:center;margin-top:2vh}
+  /* tiza: blanco roto, un poco de temblor y grano; nada de negro */
+  #metodo .valid li{break-inside:avoid;opacity:1;transform:none;border-bottom:0;padding:.6rem 0;grid-template-columns:2.6rem 1fr;column-gap:1.1rem;filter:url(#tiza)}
+  #metodo .valid .ch{display:inline-block}
+  #metodo .valid .pal{display:inline-block;white-space:nowrap}
+  #metodo .valid li::before{display:none}
+  #metodo .valid li b{color:#f7f4ea;font-weight:600;font-size:clamp(1.4rem,2.1vw,2.3rem);letter-spacing:.01em;text-shadow:0 0 2px rgba(255,255,255,.35)}
+  #metodo .valid li span{color:rgba(247,244,234,.8);font-size:clamp(1.1rem,1.15vw,1.4rem)}
+  #metodo .valid li svg{grid-row:1 / span 2;width:2.6rem;height:2.6rem;margin-top:.15rem}
+  #metodo .valid li svg path{fill:none;stroke:#f3efe3;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40}
+  #metodo .hoja .tiza-titulo{color:#f3efe3;font-size:clamp(1.1rem,1.4vw,1.5rem);opacity:.75;filter:url(#tiza);letter-spacing:.01em}
+  #mapa .cab .dos{align-items:end}
+  #mapa .placa{margin:0 3vw 6vh;min-height:80vh;background:url("img/plano_papel_b.jpg") center/cover no-repeat;box-shadow:none;transform:none;border-radius:0}
+  #mapa .placa::before,#mapa .placa::after{display:none}
+  #mapa .lienzo{position:absolute;left:22%;top:8%;width:56%;height:82%}
+  #mapa .ficha{right:4%;top:12%}
+  #quien .grande{max-width:none}
+  @media (max-width:820px){.dos{grid-template-columns:1fr;gap:3rem}#mapa .lienzo{left:14%;top:8%;width:64%;height:86%}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="tiza" x="-15%" y="-15%" width="130%" height="130%">
+    <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" seed="3" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+<div class="cursor" aria-hidden="true"></div>
+<canvas id="polvo" aria-hidden="true"></canvas>
+
+
+<div id="cierre" class="cargando" aria-label="Persiana del negocio: pulsa, baja, o pulsa espacio para abrir">
+  <div class="plano"><div class="tag">Negocio</div></div>
+  <canvas id="tres" style="position:absolute;inset:0"></canvas>
+  <button class="abrir" type="button"><span>↑</span>&nbsp; Abrir la persiana</button>
+  
+</div>
+
+
+<header>
+  <a href="#portada">Negocio</a>
+  <nav><a href="#webs">Webs</a><a href="#software">Software</a><a href="#metodo">Cómo</a><a href="#mapa">Dónde</a><a href="#contacto">Contacto</a></nav>
+</header>
+
+<div id="smooth-wrapper"><div id="smooth-content">
+
+<section id="portada">
+  <div class="foto" data-speed="0.8"></div>
+  <div class="velo"></div>
+  <div class="texto">
+    <h1 class="revela">Webs que se notan. Y el software de <span class="acento">detrás.</span></h1>
+    <p class="sub">Para negocios de barrio que quieren verse tan bien como trabajan.
+    Y cuando la web no basta, la herramienta a medida que hay detrás del mostrador.</p>
+  </div>
+</section>
+
+<section id="webs" aria-label="Webs">
+  <div class="escena">
+    <div class="cristal" data-speed="0.9"></div><div class="velo"></div>
+    <p class="frase">Una web tiene un trabajo: que quien entra se quede.</p>
+    <p class="frase derecha">Se nota en dos segundos. Antes de leer nada.</p>
+    <p class="frase final centro"><b>Estás en una.</b></p>
+    <div class="rail" aria-hidden="true"><i></i></div>
+  </div>
+</section>
+
+<section id="software">
+  <div class="fondo" data-speed="0.85"></div><div class="velo"></div>
+  <div class="fila"><div class="dos">
+    <div>
+      <h2 class="revela">Cuando el problema no cabe en una herramienta de 29 € al mes.</h2>
+      <p class="separa sec">Un negocio tiene un flujo que ninguna aplicación genérica hace bien.
+      Lo miramos, lo construimos a medida, y lo dejamos funcionando en sus manos.</p>
+    </div>
+    <div>
+      <ul class="casos">
+        <li><a href="#"><span class="que">Publicar en un blog sin que salga nada roto</span><span class="estado">hecho · en producción</span></a></li>
+        <li><a href="#"><span class="que">Informes de valoración para una agencia</span><span class="estado">hecho · privado</span></a></li>
+        <li><a href="#contacto"><span class="que">Tu problema</span><span class="estado">cuéntanoslo</span></a></li>
+      </ul>
+    </div>
+  </div></div>
+</section>
+
+<section id="metodo">
+  <div class="cab"><div class="dos">
+    <h2 class="revela">Antes de entregarte nada, lo comprobamos.</h2>
+    <div><p class="sec">No damos nada por hecho. Cada web y cada herramienta pasa por una lista antes de que la veas tú. Está escrita en la pizarra del taller y crece cada vez que algo se nos escapa.</p>
+    <p class="separa sec"><b>Si algo de esta lista falla, no te la entregamos.</b> La última vez, la lista paró una entrega nuestra. Para eso está.</p></div>
+  </div></div>
+  <div class="hoja"><div class="tablero">
+  <div class="tiza-titulo">Antes de entregar — se tacha todo o no sale</div>
+  <ul class="valid">
+    <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 17 L13 24 L27 8"/></svg><b>Se ve bien en tu móvil y en el de tus clientes</b><span>no solo en nuestro ordenador</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 17 L13 24 L27 8"/></svg><b>Carga rápido, también con los datos del móvil</b><span>nadie espera a una web lenta</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 17 L13 24 L27 8"/></svg><b>Sale en Google con tu nombre y tu barrio</b><span>y la ficha lleva teléfono, horario y dirección</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 17 L13 24 L27 8"/></svg><b>El teléfono se pulsa y llama; la dirección abre el mapa</b><span>probado, no supuesto</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 17 L13 24 L27 8"/></svg><b>Las fotos son tuyas y pesan lo justo</b><span>ni fotos de banco de imágenes, ni ficheros que no cargan</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 17 L13 24 L27 8"/></svg><b>Cada enlace lleva a donde dice</b><span>ninguno a una página que no existe</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 17 L13 24 L27 8"/></svg><b>Lo que dice la página es lo que tú aprobaste</b><span>lo comprobamos en la página publicada, no en el borrador</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 17 L13 24 L27 8"/></svg><b>Funciona el lunes sin que estemos nosotros</b><span>y tienes las claves de todo</span></li>
+  </ul>
+  </div></div>
+</section>
+
+<section id="mapa" aria-label="Dónde trabajamos">
+  <div class="cab"><div class="dos"><h2 class="revela">Locales de barrio hay en toda España.</h2><p class="sec">Arrastra el plano: cada punto azul es un negocio con el que hemos trabajado. El primero, en el barrio donde vivimos.</p></div></div>
+  <div class="placa">
+    <div class="lienzo"><svg id="svgmapa" viewBox="-40 0 1080 800" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg></div>
+    <div class="ficha"><b></b><span></span></div>
+  </div>
+</section>
+
+<section id="quien"><div class="fondo" data-speed="0.85"></div><div class="velo"></div><div class="dos">
+  <p class="grande revela">Una persona. Veinte años vendiendo software industrial a gente que no lo construyó, y que necesita que funcione el lunes.</p>
+  <p class="sec">Ingeniero de software, después servicios técnicos, después ventas. Con base en Madrid. Fuera del trabajo hace videojuegos; no los vendemos aquí, pero dicen cómo construimos.</p>
+</div></section>
+
+<section id="contacto">
+  <div class="cab"><div class="dos"><h2 class="revela">Cuéntanos el problema. Si no lo resolvemos, te lo decimos.</h2><p class="sec">Sin formulario. Un correo, y respondemos nosotros.</p></div></div>
+  <div class="placa"><a class="correo" href="mailto:hola@negocio.es">hola@negocio.es</a></div>
+</section>
+
+<footer><span>Negocio · Madrid</span><span>Sin cookies. Sin rastreo.</span></footer>
+
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Draggable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+<script>
+(function(){
+  const reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  gsap.registerPlugin(ScrollTrigger, ScrollSmoother, Draggable);
+
+  document.querySelectorAll(".revela").forEach(el => {
+    const partes = [];
+    el.childNodes.forEach(n => {
+      const cls = n.nodeType === 1 ? n.className : "";
+      n.textContent.split(/(\s+)/).forEach(t => { if (t.trim()) partes.push({t, cls}); else if (t) partes.push({sp:true}); });
+    });
+    el.innerHTML = partes.map(p => p.sp ? " " : `<span class="w"><i class="${p.cls}">${p.t}</i></span>`).join("");
+  });
+
+  const cur = document.querySelector(".cursor");
+  if (cur && matchMedia("(pointer:fine)").matches){
+    const mx = gsap.quickTo(cur,"x",{duration:.18,ease:"power3"}), my = gsap.quickTo(cur,"y",{duration:.18,ease:"power3"});
+    addEventListener("mousemove", e => { mx(e.clientX); my(e.clientY); });
+    document.querySelectorAll("a,button,#svgmapa").forEach(a => {
+      a.addEventListener("mouseenter", () => cur.classList.add("grande"));
+      a.addEventListener("mouseleave", () => cur.classList.remove("grande"));
+    });
+    const piz = document.querySelector("#metodo .hoja");
+    if (piz){ piz.addEventListener("mouseenter", () => cur.classList.add("tiza")); piz.addEventListener("mouseleave", () => cur.classList.remove("tiza")); }
+  }
+
+  /* polvo */
+  const polvo = document.getElementById("polvo"), pc = polvo.getContext("2d");
+  let W, H, granos = [], pintando = false;
+  const DPR = Math.min(devicePixelRatio||1, 2);
+  function medir(){ W = innerWidth; H = innerHeight; polvo.width = W*DPR; polvo.height = H*DPR; pc.setTransform(DPR,0,0,DPR,0,0); }
+  medir(); addEventListener("resize", medir);
+  // grano de polvo: pequeno, opaco, cae con gravedad y se apaga
+  function soltar(y, n, golpe){ for (let i=0;i<n;i++) granos.push({x:Math.random()*W, y:y+(Math.random()-.5)*10,
+    vx:(Math.random()-.5)*(golpe?3.2:1.2), vy:golpe ? Math.random()*1.2 : -Math.random()*1.4-.3, r:Math.random()*1.6+.5, a:.75+Math.random()*.25, vida:1}); }
+  function pintar(){ pintando = true; pc.clearRect(0,0,W,H); granos = granos.filter(g => g.vida > .03 && g.y < H+20);
+    for (const g of granos){ g.x+=g.vx; g.y+=g.vy; g.vy+=.16; g.vx*=.985; g.vida*=.965;
+      pc.fillStyle=`rgba(150,138,120,${g.a*g.vida*.8})`; pc.beginPath(); pc.arc(g.x,g.y,g.r,0,7); pc.fill(); }
+    if (granos.length) requestAnimationFrame(pintar); else { pc.clearRect(0,0,W,H); pintando = false; } }
+  function golpe(){ soltar(H*.09, 360, true); if (!pintando) pintar(); setTimeout(() => { granos = []; pc.clearRect(0,0,W,H); polvo.remove(); }, 2600); }   // el rodillo llega arriba: cae el polvo del cajon
+
+  /* ═══════════ LA PERSIANA EN 3D ═══════════
+     Lamas reales (una geometria por lama) con la foto como textura y el nombre
+     pintado encima. Al abrir, cada lama sube y, al llegar al cajon, se enrolla
+     siguiendo un cilindro. La luz corre por el metal porque es metal de verdad
+     para el motor: MeshStandardMaterial con metalness y una luz que se mueve. */
+  const cierre = document.getElementById("cierre"), lienzo3d = document.getElementById("tres");
+  let tresOK = false, render3d = null, avance = {p:0}, luzMovil = null;
+  const LAMAS = 46;
+
+  function texturaConNombre(img){
+    // la foto + "Negocio" con efecto spray, en un canvas: asi el nombre se enrolla con la lama
+    const c = document.createElement("canvas"); c.width = 2048; c.height = 1152;
+    const g = c.getContext("2d");
+    g.drawImage(img, 0, 0, c.width, c.height);
+    // NEGOCIO pintado con spray de verdad, no pegado: se construye en una capa aparte
+    // (sobrepintado, trazo por capas con temblor, goteos, grano) y se funde con las
+    // lamas en modo multiply para que el metal se vea a traves de la pintura.
+    const capa = document.createElement("canvas"); capa.width = c.width; capa.height = c.height;
+    const k = capa.getContext("2d");
+    const texto = "Negocio", tam = 330;
+    k.save(); k.translate(c.width*.06, c.height*.58); k.rotate(-3.5*Math.PI/180);
+    k.font = `800 ${tam}px 'Bricolage Grotesque', sans-serif`; k.textBaseline = "alphabetic";
+    // 1. sobrepintado: la nube de spray alrededor del trazo
+    k.shadowColor = "rgba(20,44,140,.9)"; k.shadowBlur = 60; k.fillStyle = "rgba(20,44,140,.10)";
+    for (let i=0;i<5;i++) k.fillText(texto, (Math.random()-.5)*6, (Math.random()-.5)*6);
+    k.shadowBlur = 26; k.fillStyle = "rgba(24,52,160,.22)";
+    for (let i=0;i<4;i++) k.fillText(texto, (Math.random()-.5)*4, (Math.random()-.5)*4);
+    // 2. el trazo: varias pasadas con temblor de mano, ninguna del todo opaca
+    k.shadowBlur = 3; k.shadowColor = "rgba(15,35,120,.6)";
+    for (let i=0;i<4;i++){ k.fillStyle = `rgba(28,58,170,${.45 + i*.12})`; k.fillText(texto, (Math.random()-.5)*3, (Math.random()-.5)*3); }
+    // 3. goteos: desde la base de las letras, longitudes al azar
+    k.shadowBlur = 0; k.strokeStyle = "rgba(24,52,160,.85)"; k.lineCap = "round";
+    const anchoTexto = k.measureText(texto).width;
+    for (let i=0;i<22;i++){ const x = Math.random()*anchoTexto, largo = 12 + Math.random()*(Math.random()<.25 ? 140 : 45);
+      k.lineWidth = 2 + Math.random()*4; k.beginPath(); k.moveTo(x, -6 + Math.random()*10); k.lineTo(x + (Math.random()-.5)*3, largo); k.stroke(); }
+    // 4. grano: la pintura no cubre uniforme, se come a puntos
+    k.globalCompositeOperation = "destination-out";
+    for (let i=0;i<9000;i++){ k.fillStyle = `rgba(0,0,0,${Math.random()*.5})`; k.beginPath(); k.arc(Math.random()*anchoTexto*1.1 - 20, -tam*.75 + Math.random()*tam*1.2, Math.random()*2.2, 0, 7); k.fill(); }
+    k.globalCompositeOperation = "source-over";
+    // 5. la linea de abajo, mas pequena, misma mano
+    k.font = "500 60px 'Bricolage Grotesque', sans-serif"; k.fillStyle = "rgba(255,255,255,.85)"; k.shadowColor="rgba(0,0,0,.5)"; k.shadowBlur=6;
+    k.fillText("abierto desde 2026", 8, 86);
+    k.restore();
+    // fundir con el metal: multiply deja ver las lamas; una segunda pasada normal tenue devuelve el color
+    g.globalCompositeOperation = "multiply"; g.globalAlpha = .95; g.drawImage(capa, 0, 0);
+    g.globalCompositeOperation = "source-over"; g.globalAlpha = .35; g.drawImage(capa, 0, 0);
+    g.globalAlpha = 1;
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+  }
+
+  function montar3d(img){
+    const renderer = new THREE.WebGLRenderer({canvas:lienzo3d, antialias:true, alpha:true});
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+    const escena = new THREE.Scene();   // sin fondo: detras se ve la pagina
+    const cam = new THREE.PerspectiveCamera(38, innerWidth/innerHeight, .1, 100);
+    // el plano de la persiana mide exactamente el viewport a distancia D
+    const D = 10, altoV = 2*D*Math.tan(cam.fov*Math.PI/360), anchoV = altoV*cam.aspect;
+    cam.position.set(0, altoV*.02, D); cam.lookAt(0, altoV*.02, 0);
+    const tex = texturaConNombre(img);
+    const mat = new THREE.MeshStandardMaterial({map:tex, metalness:.55, roughness:.48});
+    const alto = altoV/LAMAS, lamas = [];
+    for (let i=0;i<LAMAS;i++){
+      // cada lama: una caja fina con relieve curvado sutil (dos caras ligeramente giradas)
+      const geo = new THREE.BoxGeometry(anchoV*1.02, alto, .22, 1, 1, 1);
+      const uv = geo.attributes.uv, v0 = 1-(i+1)/LAMAS, v1 = 1-i/LAMAS;
+      for (let k=0;k<uv.count;k++){ uv.setY(k, v0 + uv.getY(k)*(v1-v0)); }
+      const m = new THREE.Mesh(geo, mat);
+      m.userData.y0 = altoV/2 - alto*(i+.5); m.position.set(0, m.userData.y0, 0);
+      escena.add(m); lamas.push(m);
+    }
+    // el cajon: una caja oscura arriba, delante, donde se enrolla
+    // el eje del rodillo, a la vista, justo sobre el borde superior
+    const R = altoV*.095, ejeY = altoV/2 - R*1.05;   // el eje DENTRO del cuadro: el rollo se ve
+    const eje = new THREE.Mesh(new THREE.CylinderGeometry(R*.32, R*.32, anchoV*1.06, 24), new THREE.MeshStandardMaterial({color:0x2a2c30, metalness:.7, roughness:.35}));
+    eje.rotation.z = Math.PI/2; eje.position.set(0, ejeY, R*.35); escena.add(eje);
+    // los carriles laterales
+    for (const s of [-1, 1]){ const carril = new THREE.Mesh(new THREE.BoxGeometry(.22, altoV*1.1, .5), new THREE.MeshStandardMaterial({color:0x35383d, metalness:.5, roughness:.5}));
+      carril.position.set(s*anchoV*.515, 0, -.1); escena.add(carril); }
+    escena.add(new THREE.AmbientLight(0xffffff, .55));
+    const sol = new THREE.DirectionalLight(0xfff4e6, 1.4); sol.position.set(-4, 6, 8); escena.add(sol);
+    luzMovil = new THREE.PointLight(0xdfe8ff, 18, 30, 1.6); luzMovil.position.set(0, -altoV*.4, 4); escena.add(luzMovil);
+
+    const grosor = .22;                                  // grosor de lama: hace crecer el rollo vuelta a vuelta
+    render3d = function(){
+      const subida = avance.p * (altoV + R*2.2);
+      for (const m of lamas){
+        const y = m.userData.y0 + subida;
+        if (y <= ejeY - R){ m.position.set(0, y, 0); m.rotation.x = 0; m.visible = true; }
+        else {
+          // la lama entra en el rodillo y se curva hacia la camara: espiral cuyo radio crece con cada vuelta
+          const s = y - (ejeY - R), ang = s / R, r = R + grosor*(ang/(2*Math.PI))*1.15;
+          m.position.set(0, ejeY - r*Math.cos(ang), R*.35 + r*Math.sin(ang));
+          m.rotation.x = -ang; m.visible = ang < Math.PI*2*2.6;   // dos vueltas y media a la vista, luego ya no hace falta
+        }
+      }
+      renderer.render(escena, cam);
+    };
+    let objetivoLuz = {x:0, y:-altoV*.3};
+    lienzo3d.addEventListener("mousemove", e => { objetivoLuz.x = (e.clientX/innerWidth-.5)*anchoV*.9; objetivoLuz.y = -(e.clientY/innerHeight-.5)*altoV*.9; });
+    (function bucle(){ if (!abierta){ luzMovil.position.x += (objetivoLuz.x-luzMovil.position.x)*.18; luzMovil.position.y += (objetivoLuz.y-luzMovil.position.y)*.18; render3d(); requestAnimationFrame(bucle); } })();
+    addEventListener("resize", () => { renderer.setSize(innerWidth, innerHeight); cam.aspect = innerWidth/innerHeight; cam.updateProjectionMatrix(); render3d(); });
+    render3d(); tresOK = true; plano.style.display = "none"; cierre.classList.remove("cargando");
+
+  }
+
+  /* el sonido de la persiana, sintetizado */
+  let conSonido = true;
+  const botonSonido = cierre.querySelector(".sonido") || document.createElement("button");
+  botonSonido.addEventListener("click", e => { e.stopPropagation(); conSonido = !conSonido; botonSonido.textContent = "sonido: " + (conSonido ? "sí" : "no"); botonSonido.setAttribute("aria-pressed", conSonido); });
+  function sonarPersiana(duracion){
+    if (!conSonido) return;
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext; const ac = new AC();
+      const n = ac.sampleRate*duracion, buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0);
+      for (let i=0;i<n;i++) d[i] = Math.random()*2-1;
+      const ruido = ac.createBufferSource(); ruido.buffer = buf;
+      const paso = ac.createBiquadFilter(); paso.type = "bandpass"; paso.frequency.value = 900; paso.Q.value = .9;
+      const traqueteo = ac.createGain();                     // las lamas golpeando el carril, una a una
+      const lfo = ac.createOscillator(); lfo.type = "square"; lfo.frequency.setValueAtTime(9, ac.currentTime); lfo.frequency.linearRampToValueAtTime(16, ac.currentTime+duracion*.6); lfo.frequency.linearRampToValueAtTime(6, ac.currentTime+duracion);
+      const lfoG = ac.createGain(); lfoG.gain.value = .5; lfo.connect(lfoG); lfoG.connect(traqueteo.gain); traqueteo.gain.value = .5;
+      const grave = ac.createOscillator(); grave.type = "sawtooth"; grave.frequency.value = 48;
+      const graveF = ac.createBiquadFilter(); graveF.type = "lowpass"; graveF.frequency.value = 120;
+      const graveG = ac.createGain(); graveG.gain.value = .35;
+      const salida = ac.createGain(); salida.gain.setValueAtTime(0, ac.currentTime); salida.gain.linearRampToValueAtTime(.55, ac.currentTime+.25); salida.gain.setValueAtTime(.55, ac.currentTime+duracion-.5); salida.gain.linearRampToValueAtTime(0, ac.currentTime+duracion);
+      ruido.connect(paso); paso.connect(traqueteo); traqueteo.connect(salida);
+      grave.connect(graveF); graveF.connect(graveG); graveG.connect(salida);
+      salida.connect(ac.destination);
+      ruido.start(); lfo.start(); grave.start(); ruido.stop(ac.currentTime+duracion); lfo.stop(ac.currentTime+duracion); grave.stop(ac.currentTime+duracion);
+      // el golpe final al llegar arriba
+      setTimeout(() => { const g = ac.createOscillator(); g.type="triangle"; g.frequency.value=64; const gg = ac.createGain(); gg.gain.setValueAtTime(.6, ac.currentTime); gg.gain.exponentialRampToValueAtTime(.001, ac.currentTime+.5); g.connect(gg); gg.connect(ac.destination); g.start(); g.stop(ac.currentTime+.5); }, (duracion-.15)*1000);
+    } catch(e){}
+  }
+
+  /* MUSICA DE FONDO: un pad suave sintetizado (sin ficheros), con acordes que cambian despacio.
+     Arranca con el gesto de abrir la persiana. Las barritas del boton siguen el audio real. */
+  const botonMusica = document.getElementById("musica") || document.createElement("button"), barras = botonMusica.querySelectorAll("i");
+  let musicaOn = true, acM = null, analizador = null, maestroM = null;
+  const acordes = [[220,261.6,329.6,392],[174.6,220,261.6,349.2],[196,246.9,293.7,392],[164.8,196,246.9,329.6]]; // Am F G Em, con octava
+  function arrancarMusica(){
+    if (acM) return;
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext; acM = new AC();
+      maestroM = acM.createGain(); maestroM.gain.value = 0;
+      const filtro = acM.createBiquadFilter(); filtro.type = "lowpass"; filtro.frequency.value = 900; filtro.Q.value = .4;
+      const lfo = acM.createOscillator(); lfo.frequency.value = .07; const lfoG = acM.createGain(); lfoG.gain.value = 320; lfo.connect(lfoG); lfoG.connect(filtro.frequency); lfo.start();
+      const eco = acM.createDelay(1.5); eco.delayTime.value = .42; const ecoG = acM.createGain(); ecoG.gain.value = .28;
+      analizador = acM.createAnalyser(); analizador.fftSize = 64;
+      filtro.connect(maestroM); maestroM.connect(eco); eco.connect(ecoG); ecoG.connect(eco); ecoG.connect(maestroM); maestroM.connect(analizador); analizador.connect(acM.destination);
+      const voces = [];
+      for (let v=0; v<4; v++){
+        const par = [];
+        for (const det of [-6, 5]){ const o = acM.createOscillator(); o.type = "triangle"; o.detune.value = det; const g = acM.createGain(); g.gain.value = 0; o.connect(g); g.connect(filtro); o.start(); par.push({o,g}); }
+        voces.push(par);
+      }
+      let paso = 0;
+      function acorde(){
+        const notas = acordes[paso % acordes.length], ahora = acM.currentTime;
+        voces.forEach((par, i) => par.forEach(({o,g}) => { o.frequency.setTargetAtTime(notas[i], ahora, .8); g.gain.setTargetAtTime(.05, ahora, 1.2); }));
+        paso++;
+      }
+      acorde(); setInterval(acorde, 9000);
+      maestroM.gain.setTargetAtTime(musicaOn ? .9 : 0, acM.currentTime, 2.5);
+      const datos = new Uint8Array(analizador.frequencyBinCount);
+      (function vu(){ analizador.getByteFrequencyData(datos);
+        barras.forEach((b, i) => { const v = datos[i*2+1]/255; b.style.height = (4 + v*22) + "px"; });
+        requestAnimationFrame(vu); })();
+      botonMusica.style.opacity = 1;
+    } catch(e){}
+  }
+  botonMusica.addEventListener("click", () => { musicaOn = !musicaOn; botonMusica.classList.toggle("apagada", !musicaOn); botonMusica.setAttribute("aria-pressed", musicaOn);
+    if (maestroM) maestroM.gain.setTargetAtTime(musicaOn ? .9 : 0, acM.currentTime, .6); });
+
+  /* arranque de la persiana: 3D si se puede, foto plana si no */
+  let abierta = false;
+  const plano = cierre.querySelector(".plano");
+  function sinTres(){ lienzo3d.style.display = "none"; plano.style.display = "block"; cierre.classList.remove("cargando"); }
+  if (!reducido){
+    document.body.style.overflow = "hidden";
+    const img = new Image(); img.src = "img/persiana_a.jpg";
+    // esperar a la fuente: el nombre se pinta en la textura con Bricolage, no con la de reserva
+    img.onload = () => { (document.fonts ? document.fonts.load("800 300px 'Bricolage Grotesque'") : Promise.resolve())
+      .then(() => { try { if (!window.THREE) throw 0; montar3d(img); } catch(e){ console.warn("sin 3D:", e); sinTres(); } }); };
+    img.onerror = sinTres;
+    cierre.addEventListener("click", abrir);
+    addEventListener("wheel", e => { if (!arrancado){ e.preventDefault(); abrir(); } }, {passive:false});
+    addEventListener("touchmove", e => { if (!arrancado) e.preventDefault(); }, {passive:false});
+    addEventListener("touchmove", abrir, {once:true, passive:true});
+    addEventListener("keydown", e => { if ([" ","ArrowDown","Enter","PageDown"].includes(e.key)){ if (!arrancado) e.preventDefault(); abrir(); } });
+  } else { cierre.remove(); document.querySelector("header").style.opacity = 1; arrancar(); entrada(); }
+
+  function abrir(){
+    if (abierta) return; abierta = true;
+    const tl = gsap.timeline({defaults:{ease:"power2.inOut"}});
+    // sin sonido: decision del 15/09
+    if (tresOK){
+      tl.to(avance, {p:1, duration:3.6, ease:"power2.inOut", onUpdate(){ render3d();
+        const borde = H*(1-avance.p); if (avance.p > .05 && avance.p < .9 && Math.random() < .35){ soltar(borde, 2); if (!pintando) pintar(); } }}, 0)
+        .call(golpe, null, 3.45);
+      tl.to(luzMovil.position, {y:2, z:6, duration:3.6}, 0);
+    } else {
+      tl.to(plano, {yPercent:-100, scaleY:.85, transformOrigin:"top", duration:1.6, onUpdate(){ const p = tl.progress(); if (Math.random()<.3) soltar(H*(1-p), 2); if (!pintando) pintar(); }}, 0).call(golpe, null, 1.5);
+    }
+    tl.to("header", {opacity:1, duration:.6}, "-=.6")
+      .add(() => { cierre.remove(); document.body.style.overflow = ""; scrollTo(0,0); arrancar(); if (suave) suave.scrollTo(0, false); ScrollTrigger.refresh(); entrada(); }, "-=1.0");
+  }
+
+  let entro = false;
+  function entrada(){ if (entro) return; entro = true;
+    gsap.timeline({defaults:{ease:"power4.out"}}).to("#portada h1 .w > i",{y:0,duration:1.1,stagger:.05}).to("#portada .sub",{opacity:1,duration:.8},"-=.5"); }
+
+  let arrancado = false, suave = null;
+  function arrancar(){
+    if (arrancado || reducido) return; arrancado = true;
+    suave = ScrollSmoother.create({wrapper:"#smooth-wrapper", content:"#smooth-content", smooth:1.4, effects:true, normalizeScroll:true});
+    // los titulares se revelan ATADOS al scroll: suben con la rueda, no se disparan de golpe
+    document.querySelectorAll(".revela").forEach(el => { if (el.closest("#portada")) return;
+      gsap.to(el.querySelectorAll(".w > i"), {y:0, stagger:.04, ease:"none", scrollTrigger:{trigger:el, start:"top 90%", end:"top 55%", scrub:.8}}); });
+
+    const frases = gsap.utils.toArray("#webs .frase");
+    const tl = gsap.timeline({scrollTrigger:{trigger:"#webs .escena", start:"top top", end:"+="+(frases.length*45)+"%", pin:true, scrub:.9, anticipatePin:1}});
+    frases.forEach((f,i) => { tl.fromTo(f,{opacity:0,y:40},{opacity:1,y:0,duration:.8});
+      if (i === frases.length-1) tl.to("#webs .velo",{opacity:.25,duration:.8},"<");     // el cristal se limpia con la ultima frase
+      if (i<frases.length-1) tl.to(f,{opacity:0,y:-40,duration:.7},"+=.35"); });
+    tl.to("#webs .rail i",{width:"100%",ease:"none",duration:tl.duration()},0);
+
+    // (la "web desmontada" se retiro: sobre foto oscura leia como error)
+
+    gsap.from(".casos li", {x:-30, opacity:0, stagger:.08, ease:"none", scrollTrigger:{trigger:".casos", start:"top 92%", end:"top 60%", scrub:.8}});
+    gsap.from("#metodo .hoja", {y:40, rotate:-3, opacity:0, duration:.9, ease:"power3.out", scrollTrigger:{trigger:"#metodo .hoja", start:"top 85%", once:true}});
+    // ESCRITURA CON TIZA: cada letra aparece en orden, con un temblor propio, mientras bajas.
+    // Al terminar la frase se dibuja el tick. Si subes, se borra.
+    gsap.utils.toArray("#metodo .valid li").forEach((li, i) => {
+      for (const el of [li.querySelector("b"), li.querySelector("span")]){
+        const texto = el.textContent; el.textContent = "";
+        // cada PALABRA es un bloque que no se parte; dentro, cada letra es un cuadro que se enciende
+        texto.split(" ").forEach((pal, k) => { if (k) el.appendChild(document.createTextNode(" "));
+          const w = document.createElement("span"); w.className = "pal"; for (const ch of pal){ const s = document.createElement("i"); s.className = "ch"; s.textContent = ch; w.appendChild(s); } el.appendChild(w); });
+      }
+      const letras = li.querySelectorAll(".ch");
+      letras.forEach(l => { l.style.display = "inline-block"; l.style.opacity = 0; l.style.fontStyle = "normal"; });
+      const tlLi = gsap.timeline({scrollTrigger:{trigger:li, start:"top 90%", end:"top 45%", scrub:.6}});
+      tlLi.to(letras, {opacity:1, ease:"none", stagger:{each:.02, from:"start"}, duration:1})
+          .to(li.querySelector("svg path"), {strokeDashoffset:0, ease:"none", duration:.35});
+    });
+
+
+    montarMapa(); ScrollTrigger.refresh();
+  }
+  /* el mapa: barrios de Madrid, estilizado, arrastrable */
+  function montarMapa(){
+    // Ciudades de Espana, proyectadas de sus coordenadas reales sobre el lienzo (x = longitud, y = latitud).
+    // Aproximado a proposito: es un plano, no un GPS. El punto activo es donde vive Zarko.
+    const barrios = [
+      ["La Paz · Madrid",446,352,true,"Aquí estamos. Barrio de La Paz, Madrid."],
+      ["Barcelona",898,261],["Valencia",702,453],["Sevilla",270,661],["Zaragoza",662,235],["Málaga",391,728],
+      ["Bilbao",505,74],["Murcia",644,601],["Alicante",694,565],["Valladolid",368,235],["Vigo",60,176],
+      ["A Coruña",84,64],["Granada",454,682],["Oviedo",281,64],["Santander",438,54],["Pamplona",605,118],
+      ["San Sebastián",578,68],["Salamanca",295,303],["Toledo",421,414],["Burgos",446,166],["Badajoz",195,512],
+      ["Albacete",588,501],["Cádiz",247,747],["Almería",542,717],["León",302,140],["Cáceres",241,453],
+      ["Palma",935,443],["Logroño",542,153],["Córdoba",363,611],["Girona",948,202],["Huelva",196,674],
+      ["Segovia",414,305],["Cuenca",567,393],
+    ];
+    const NS="http://www.w3.org/2000/svg", svg=document.getElementById("svgmapa");
+    const vecinos=[[0,19],[0,9],[0,17],[0,18],[0,32],[0,31],[0,21],[0,2],[0,4],[19,6],[19,14],[19,27],[27,4],[27,15],[15,16],[16,6],[6,14],[14,13],[13,24],[24,11],[11,10],[10,17],[17,9],[9,24],[9,31],[31,17],[17,25],[25,20],[20,3],[3,28],[28,12],[12,5],[5,23],[23,7],[7,8],[8,2],[2,21],[21,7],[2,4],[4,1],[1,29],[1,26],[18,28],[3,30],[30,22],[22,3],[25,18],[12,0]];
+    const lineas=[];
+    for (const [a,b] of vecinos){ const l=document.createElementNS(NS,"line");
+      l.setAttribute("x1",barrios[a][1]);l.setAttribute("y1",barrios[a][2]);l.setAttribute("x2",barrios[b][1]);l.setAttribute("y2",barrios[b][2]);
+      l.setAttribute("stroke","rgba(31,63,158,.32)");l.setAttribute("stroke-width","1.4"); svg.appendChild(l); lineas.push(l); }
+    const ficha=document.querySelector("#mapa .ficha"), puntos=[];
+    barrios.forEach(([nombre,x,y,activo,que]) => {
+      const g=document.createElementNS(NS,"g"); const c=document.createElementNS(NS,"circle");
+      c.setAttribute("cx",x);c.setAttribute("cy",y);c.setAttribute("r",activo?11:7);c.setAttribute("class","barrio"+(activo?" activo":""));
+      const t=document.createElementNS(NS,"text");t.setAttribute("x",x+14);t.setAttribute("y",y+5);t.textContent=nombre;if(activo)t.setAttribute("class","act");
+      g.appendChild(c);g.appendChild(t);svg.appendChild(g);puntos.push(g);
+      if (activo){ const halo=document.createElementNS(NS,"circle");halo.setAttribute("cx",x);halo.setAttribute("cy",y);halo.setAttribute("r",11);halo.setAttribute("fill","none");halo.setAttribute("stroke","#1F3F9E");svg.insertBefore(halo,g);
+        gsap.fromTo(halo,{attr:{r:11},opacity:.8},{attr:{r:44},opacity:0,duration:2.2,repeat:-1,ease:"power1.out"});
+        c.addEventListener("mouseenter",()=>{ficha.querySelector("b").textContent=nombre;ficha.querySelector("span").textContent=que;gsap.to(ficha,{opacity:1,duration:.3});});
+        c.addEventListener("mouseleave",()=>gsap.to(ficha,{opacity:0,duration:.3})); }
+    });
+    /* el mapa se DIBUJA al llegar: calles primero, luego barrios */
+    lineas.forEach(l => { const len = Math.hypot(l.x2.baseVal.value-l.x1.baseVal.value, l.y2.baseVal.value-l.y1.baseVal.value); l.style.strokeDasharray=len; l.style.strokeDashoffset=len; });
+    gsap.to(lineas, {strokeDashoffset:0, duration:1.4, stagger:.03, ease:"power2.out", scrollTrigger:{trigger:"#mapa .lienzo", start:"top 75%", once:true}});
+    gsap.from(puntos, {scale:0, transformOrigin:"center", duration:.5, stagger:.04, ease:"back.out(2)", scrollTrigger:{trigger:"#mapa .lienzo", start:"top 75%", once:true}, delay:.6});
+    const lienzo=document.querySelector("#mapa .lienzo");
+    Draggable.create(svg,{type:"x,y",bounds:{minX:-lienzo.offsetWidth*.15,maxX:lienzo.offsetWidth*.15,minY:-lienzo.offsetHeight*.15,maxY:lienzo.offsetHeight*.15},edgeResistance:.9});
+    gsap.to("#mapa .pista",{opacity:0,duration:.6,delay:6});
+
+    // PULSOS: puntos de luz que viajan por las carreteras, saltando de ciudad en ciudad. El plano esta vivo.
+    const grafo = {}; vecinos.forEach(([a,b]) => { (grafo[a]=grafo[a]||[]).push(b); (grafo[b]=grafo[b]||[]).push(a); });
+    function pulso(desde, retraso){
+      const dot = document.createElementNS(NS,"circle"); dot.setAttribute("r", 3.2); dot.setAttribute("fill", "#1F3F9E"); dot.setAttribute("opacity", 0); svg.appendChild(dot);
+      const estela = document.createElementNS(NS,"circle"); estela.setAttribute("r", 9); estela.setAttribute("fill", "rgba(31,63,158,.18)"); estela.setAttribute("opacity",0); svg.insertBefore(estela, dot);
+      let actual = desde;
+      function salta(){
+        const opciones = grafo[actual] || [0]; const destino = opciones[Math.floor(Math.random()*opciones.length)];
+        const [ , x1, y1] = barrios[actual], [ , x2, y2] = barrios[destino]; const pos = {t:0};
+        const dur = Math.hypot(x2-x1, y2-y1) / 110;
+        gsap.to(pos, {t:1, duration:dur, ease:"sine.inOut", onUpdate(){ const x = x1+(x2-x1)*pos.t, y = y1+(y2-y1)*pos.t;
+            dot.setAttribute("cx",x); dot.setAttribute("cy",y); estela.setAttribute("cx",x); estela.setAttribute("cy",y); },
+          onComplete(){ actual = destino; gsap.delayedCall(.35 + Math.random()*.8, salta); }});
+      }
+      gsap.delayedCall(retraso, () => { gsap.to([dot, estela], {opacity:1, duration:.6}); salta(); });
+    }
+    ScrollTrigger.create({trigger:"#mapa .lienzo", start:"top 80%", once:true, onEnter(){ [0, 0, 3, 1, 10].forEach((c,i) => pulso(c, 1.2 + i*.9)); }});
+  }
+})();
+</script>
+</body>
+</html>

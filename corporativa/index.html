@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Nombre de la firma] — [Qué hace, en cuatro palabras]</title>
+<meta name="description" content="[Una frase que resuma la firma.]">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+<header class="cab">
+  <a class="marca" href="#inicio">[Nombre de la firma]</a>
+  <nav>
+    <a href="#servicios">Servicios</a>
+    <a href="#resultados">Resultados</a>
+    <a href="#equipo">Equipo</a>
+    <a href="#proceso">Cómo trabajamos</a>
+    <a href="#contacto" class="cta">Contacto</a>
+  </nav>
+</header>
+
+<!-- ═══ HERO a sangre: una foto, una frase, nada más ═══ -->
+<section id="inicio" class="hero">
+  <div class="foto"><img src="img/hero.jpg" alt=""></div>
+  <div class="velo"></div>
+  <div class="hero-texto">
+    <p class="ante revela">[Sector] · desde [año]</p>
+    <h1 class="revela">[Una frase de posicionamiento, sin adjetivos: qué hacéis y para quién.]</h1>
+    <p class="sub revela">[Segunda frase: el rasgo que os distingue, con algo concreto detrás.]</p>
+    <a class="boton revela" href="#contacto">Hablemos</a>
+  </div>
+  <div class="hero-pie"><span>[Ciudad]</span><span>[Segunda ciudad]</span><span>[Tercera]</span></div>
+</section>
+
+<!-- ═══ CIFRAS: las pruebas antes que las credenciales (Gibson Dunn) ═══ -->
+<section class="cifras">
+  <div class="cifra"><b data-n="[24]">0</b><span>[años de ejercicio]</span></div>
+  <div class="cifra"><b data-n="[380]">0</b><span>[asuntos resueltos]</span></div>
+  <div class="cifra"><b data-n="[97]" data-suf="%">0</b><span>[clientes que repiten]</span></div>
+  <div class="cifra"><b data-n="[12]">0</b><span>[profesionales]</span></div>
+</section>
+
+<!-- ═══ SERVICIOS: lista, no tarjetas ═══ -->
+<section id="servicios" class="bloque">
+  <div class="bloque-cab"><p class="ante">Servicios</p><h2 class="revela">[Lo que hacemos, en una frase.]</h2></div>
+  <ol class="servicios">
+    <li><span class="num">01</span><div><h3>[Servicio uno]</h3><p>[Dos líneas: para quién es y qué resuelve.]</p></div><span class="flecha">→</span></li>
+    <li><span class="num">02</span><div><h3>[Servicio dos]</h3><p>[Dos líneas.]</p></div><span class="flecha">→</span></li>
+    <li><span class="num">03</span><div><h3>[Servicio tres]</h3><p>[Dos líneas.]</p></div><span class="flecha">→</span></li>
+    <li><span class="num">04</span><div><h3>[Servicio cuatro]</h3><p>[Dos líneas.]</p></div><span class="flecha">→</span></li>
+  </ol>
+</section>
+
+<!-- ═══ RESULTADOS: tres casos, con cifra ═══ -->
+<section id="resultados" class="bloque oscuro">
+  <div class="bloque-cab"><p class="ante">Resultados</p><h2 class="revela">[Casos recientes, con nombre o sin él.]</h2></div>
+  <div class="casos">
+    <article class="revela"><b>[Cifra o resultado]</b><h3>[Título del caso]</h3><p>[Qué había, qué se hizo, qué pasó. Tres frases.]</p><span>[Sector · año]</span></article>
+    <article class="revela"><b>[Cifra o resultado]</b><h3>[Título del caso]</h3><p>[Tres frases.]</p><span>[Sector · año]</span></article>
+    <article class="revela"><b>[Cifra o resultado]</b><h3>[Título del caso]</h3><p>[Tres frases.]</p><span>[Sector · año]</span></article>
+  </div>
+</section>
+
+<!-- ═══ EQUIPO: caras, nombre, cargo; nada más ═══ -->
+<section id="equipo" class="bloque">
+  <div class="bloque-cab"><p class="ante">Equipo</p><h2 class="revela">[Quién lleva cada asunto.]</h2></div>
+  <div class="equipo">
+    <figure class="revela"><img src="img/persona_1.jpg" alt=""><figcaption><b>[Nombre Apellido]</b><span>[Cargo]</span></figcaption></figure>
+    <figure class="revela"><img src="img/persona_2.jpg" alt=""><figcaption><b>[Nombre Apellido]</b><span>[Cargo]</span></figcaption></figure>
+    <figure class="revela"><img src="img/persona_3.jpg" alt=""><figcaption><b>[Nombre Apellido]</b><span>[Cargo]</span></figcaption></figure>
+    <figure class="revela"><img src="img/persona_4.jpg" alt=""><figcaption><b>[Nombre Apellido]</b><span>[Cargo]</span></figcaption></figure>
+  </div>
+</section>
+
+<!-- ═══ PROCESO: tres pasos con una foto de detalle ═══ -->
+<section id="proceso" class="bloque proceso">
+  <div class="proceso-foto revela"><img src="img/detalle.jpg" alt=""></div>
+  <div>
+    <p class="ante">Cómo trabajamos</p>
+    <h2 class="revela">[Sin sorpresas. Así es como va.]</h2>
+    <ol class="pasos">
+      <li class="revela"><b>01</b><div><h3>[Primer contacto]</h3><p>[Qué pasa en la primera llamada y qué necesitamos de ti.]</p></div></li>
+      <li class="revela"><b>02</b><div><h3>[Estudio y propuesta]</h3><p>[Qué recibes, cuándo, y qué cuesta.]</p></div></li>
+      <li class="revela"><b>03</b><div><h3>[Ejecución]</h3><p>[Quién lo lleva y cómo te informamos.]</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══ INSIGHTS: tres títulos, fecha, enlace ═══ -->
+<section class="bloque insights">
+  <div class="bloque-cab"><p class="ante">Insights</p><h2 class="revela">[Lo último que hemos publicado.]</h2></div>
+  <ul>
+    <li class="revela"><a href="#"><span class="fecha">[fecha]</span><span class="titulo">[Título del artículo]</span><span class="flecha">→</span></a></li>
+    <li class="revela"><a href="#"><span class="fecha">[fecha]</span><span class="titulo">[Título del artículo]</span><span class="flecha">→</span></a></li>
+    <li class="revela"><a href="#"><span class="fecha">[fecha]</span><span class="titulo">[Título del artículo]</span><span class="flecha">→</span></a></li>
+  </ul>
+</section>
+
+<!-- ═══ CONTACTO: directo, sin formulario ═══ -->
+<section id="contacto" class="bloque contacto oscuro">
+  <div>
+    <p class="ante">Contacto</p>
+    <h2 class="revela">[Cuéntanos el asunto.]</h2>
+    <p class="revela">[Respondemos en 24 horas laborables. Primera consulta sin compromiso.]</p>
+  </div>
+  <div class="datos revela">
+    <a href="mailto:[correo]">[correo@firma.es]</a>
+    <a href="tel:[telefono]">[+34 900 000 000]</a>
+    <address>[Calle y número]<br>[Código postal] [Ciudad]</address>
+  </div>
+</section>
+
+<footer>
+  <span>© [Año] [Nombre de la firma]. Todos los derechos reservados.</span>
+  <nav><a href="#">Aviso legal</a><a href="#">Privacidad</a><a href="#">Cookies</a></nav>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="js/sitio.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+/* web-isometrica — plantilla movil: una tienda que vive. Paleta del juego: noche indigo, madera, crema, rojo noren. */
+:root{--noche:#1f2e5c;--madera:#a86a3a;--marron:#5a3a22;--crema:#fbeed4;--rojo:#c9473e;--indigo:#26346b;--tinta:#3b2a1e}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0f1633;font-family:"M PLUS Rounded 1c",system-ui,sans-serif;color:var(--tinta);-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font:inherit;cursor:pointer;border:0;background:none}
+
+/* ── el telefono en el escritorio ─────────────────────────────── */
+.fondo-escritorio{position:fixed;inset:-6%;background:url("img/menu.jpg") center 30%/cover no-repeat;filter:blur(28px) brightness(.45) saturate(1.2);z-index:0}
+.telefono{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(430px,100vw);height:min(900px,100vh);z-index:1}
+@media (min-width:640px) and (min-height:760px){
+  .telefono{width:414px;height:min(860px,94vh);border-radius:46px;background:#0b0b12;padding:12px;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 2px #2a2a36,0 0 0 6px #111}
+  .muesca{position:absolute;left:50%;top:12px;transform:translateX(-50%);width:118px;height:30px;background:#0b0b12;border-radius:0 0 18px 18px;z-index:5}
+}
+.pantalla{position:relative;width:100%;height:100%;overflow:hidden;border-radius:inherit;background:#0f1633}
+@media (min-width:640px) and (min-height:760px){.pantalla{border-radius:36px}}
+
+/* ── el escenario de 768×1344, escalado para caber ────────────── */
+.escenario{position:absolute;left:50%;top:50%;width:768px;height:1344px;transform-origin:center center}
+.vista{position:absolute;inset:0;overflow:hidden}
+.vista .capa{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.cielo{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ── menu ──────────────────────────────────────────────────────── */
+.titulo{position:absolute;left:0;right:0;top:76px;text-align:center;color:var(--crema);font-weight:900;line-height:1}
+.titulo h1{font-size:104px;letter-spacing:.02em;-webkit-text-stroke:0;paint-order:stroke fill;text-shadow:0 4px 0 var(--marron),0 -4px 0 var(--marron),4px 0 0 var(--marron),-4px 0 0 var(--marron),3px 3px 0 var(--marron),-3px -3px 0 var(--marron),3px -3px 0 var(--marron),-3px 3px 0 var(--marron),0 10px 0 var(--marron)}
+.titulo p{margin-top:22px;font-size:56px;font-weight:800;text-shadow:0 3px 0 var(--marron),0 -3px 0 var(--marron),3px 0 0 var(--marron),-3px 0 0 var(--marron),2px 2px 0 var(--marron),-2px -2px 0 var(--marron),2px -2px 0 var(--marron),-2px 2px 0 var(--marron),0 7px 0 var(--marron)}
+.dueno-menu{position:absolute;left:204px;top:1158px;width:0;height:0}
+.dueno-menu .sombra{position:absolute;left:-78px;top:-20px;width:156px;height:32px;border-radius:50%;background:rgba(46,26,15,.30)}
+.dueno-menu img{position:absolute;bottom:0;left:50%;height:310px;width:auto;transform:translateX(-50%);transform-origin:bottom center}
+.boton{position:absolute;padding:0 32px;height:76px;border-radius:38px;font-weight:900;font-size:34px;letter-spacing:.02em;box-shadow:0 6px 0 rgba(0,0,0,.25)}
+.boton.entrar{left:300px;top:1058px;width:392px;background:var(--rojo);color:var(--crema);border:4px solid #7a2a24}
+.boton.entrar:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.engranaje{position:absolute;right:24px;top:24px;width:56px;height:56px;border-radius:50%;background:rgba(0,0,0,.35);color:var(--crema);display:grid;place-items:center;font-size:30px;opacity:.7}
+.version{position:absolute;left:22px;top:1234px;color:var(--crema);font-size:24px;text-shadow:0 2px 0 rgba(0,0,0,.5)}
+
+/* ── tienda ────────────────────────────────────────────────────── */
+.mundo{position:absolute;inset:0;pointer-events:none;z-index:1;isolation:isolate}   /* muebles y npc ordenan profundidad entre si, nunca contra la interfaz */
+.mueble{position:absolute;display:block}
+.npc{position:absolute;width:180px;height:180px;pointer-events:none}   /* el origen se calcula en js: los PIES sobre el suelo */
+.npc img{position:absolute;display:block}
+.npc .sombra{position:absolute;left:50%;bottom:-6px;width:70px;height:16px;margin-left:-35px;border-radius:50%;background:rgba(46,26,15,.28)}
+.punto{position:absolute;z-index:2;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--crema);font-weight:800;font-size:26px;text-shadow:0 2px 0 rgba(0,0,0,.5)}
+.punto i{width:34px;height:34px;border-radius:50%;background:var(--rojo);border:4px solid var(--crema);box-shadow:0 0 0 0 rgba(201,71,62,.6);animation:late 1.8s ease-out infinite}
+@keyframes late{70%{box-shadow:0 0 0 22px rgba(201,71,62,0)}100%{box-shadow:0 0 0 0 rgba(201,71,62,0)}}
+.punto span{opacity:0;transition:opacity .25s;background:rgba(0,0,0,.45);padding:4px 14px;border-radius:20px}
+.punto:hover span,.punto:focus span{opacity:1}
+.bocadillo{position:absolute;z-index:3;left:60px;top:150px;width:520px;background:var(--crema);border:6px solid var(--marron);border-radius:32px;padding:26px 30px;font-size:34px;font-weight:500;line-height:1.35;opacity:0;transform:translateY(-12px)}
+.bocadillo::after{content:"";position:absolute;left:60px;bottom:-30px;border:14px solid transparent;border-top-color:var(--marron);border-bottom:0}
+.bocadillo .linea{min-height:1.4em}
+.bocadillo .cursor-tipo{display:inline-block;width:.5em;height:1em;vertical-align:-.15em;background:var(--tinta);margin-left:.1em;animation:parpadea .9s steps(2) infinite}
+@keyframes parpadea{50%{opacity:0}}
+.pestanas{position:absolute;z-index:4;left:0;right:0;bottom:0;height:140px;display:flex;background:rgba(38,52,107,.92);backdrop-filter:blur(8px);border-top:4px solid var(--madera)}
+.pestanas button{flex:1;color:var(--crema);font-weight:800;font-size:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;opacity:.75}
+.pestanas button b{font-size:30px;color:var(--rojo)}
+.pestanas button:hover,.pestanas button.activa{opacity:1}
+
+/* ── paneles ───────────────────────────────────────────────────── */
+.velo-panel{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;z-index:8}
+.panel{position:absolute;left:0;right:0;bottom:0;max-height:78%;overflow:auto;visibility:hidden;background:var(--crema);border-radius:44px 44px 0 0;padding:26px 48px 60px;transform:translateY(105%);z-index:9;font-size:32px;line-height:1.45;box-shadow:0 -20px 50px rgba(0,0,0,.35)}
+.panel .asa{display:block;width:90px;height:10px;border-radius:5px;background:rgba(90,58,34,.35);margin:0 auto 26px}
+.panel h2{font-size:52px;font-weight:900;color:var(--marron);margin-bottom:18px}
+.panel p{margin-bottom:18px}
+.panel ul,.panel ol{list-style:none;display:grid;gap:14px}
+.panel li{padding:18px 22px;border:3px solid rgba(90,58,34,.25);border-radius:22px;background:#fff8ea}
+.panel li b{display:block;font-weight:800;color:var(--marron)}
+.panel li span{opacity:.8;font-size:.9em}
+.panel ol{counter-reset:paso}.panel ol li{position:relative;padding-left:70px;counter-increment:paso}
+.panel ol li::before{content:counter(paso);position:absolute;left:20px;top:16px;width:38px;height:38px;border-radius:50%;background:var(--rojo);color:var(--crema);font-weight:900;display:grid;place-items:center;font-size:24px}
+.panel .enlaces{display:flex;flex-wrap:wrap;gap:14px 30px}
+.panel .enlaces a{color:var(--rojo);font-weight:800;border-bottom:3px solid rgba(201,71,62,.5)}
+.panel small{display:block;margin-top:30px;font-size:22px;opacity:.65;line-height:1.4}

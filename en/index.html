@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Negocio — Your business website and the tools to run it</title>
+<meta name="description" content="We build your business website and the tools to run it better. Scroll and find what looks like yours.">
+<link rel="canonical" href="/en/">
+<link rel="alternate" hreflang="es" href="/es/">
+<link rel="alternate" hreflang="en" href="/en/">
+<link rel="alternate" hreflang="x-default" href="/">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--papel:#fbfaf7;--tinta:#1c1c1e;--gris:#7a7a80;--linea:rgba(28,28,30,.1);--acento:#1c1c1e;--verde:#1f7a4d;--margen:clamp(1.4rem,8vw,10rem)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--papel);color:var(--tinta);font-family:Manrope,system-ui,sans-serif;font-weight:300;font-size:clamp(1.1rem,.45vw + .95rem,1.4rem);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}b,strong{font-weight:600}
+button,input,textarea{font:inherit}
+.cab{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:1.4rem var(--margen);font-size:.9rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gris);background:linear-gradient(180deg,rgba(251,250,247,.95),rgba(251,250,247,0))}
+.cab .marca{color:var(--tinta);font-weight:700}
+.cab a{margin-left:1.6rem}.cab .idioma{margin-left:2.2rem}.cab .idioma a{margin-left:.6rem;opacity:.5}.cab .idioma a.on{opacity:1;color:var(--tinta)}
+@media (max-width:820px){.cab nav a:not(.idioma a){display:none}.cab .idioma a{display:inline}}
+.num{display:inline-block;align-self:flex-start;background:var(--tinta);color:#fff;font-size:.8rem;padding:.2rem .55rem;font-weight:700;letter-spacing:.05em;margin-bottom:1.6rem}
+/* portada: una frase y una orden */
+.hero{min-height:100vh;padding:14vh var(--margen) 8vh;display:grid;grid-template-columns:1fr 1.05fr;gap:4vw;align-items:center}
+.hero > div{display:flex;flex-direction:column;justify-content:center}
+@media (max-width:820px){.hero{grid-template-columns:1fr;padding-top:16vh}}
+.hero > .celda{position:relative;display:grid;justify-items:center;align-items:center;height:min(560px,62vh)}.celda > *{grid-area:1/1}   /* la regla .hero > div la volvia flex y apilaba portatil y telefono */
+.portatil{position:relative;width:min(640px,44vw);transition:opacity .8s}.portatil.fuera{opacity:0}
+.portatil .tapa{position:relative;aspect-ratio:16/10;background:#0b0b12;border-radius:16px 16px 4px 4px;padding:12px 12px 16px;box-shadow:0 30px 70px rgba(20,16,10,.28),0 0 0 2px #2a2a36}
+.portatil .pant{position:relative;width:100%;height:100%;border-radius:8px;overflow:hidden;background:#111}
+.portatil .pant img,.tel .pant img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity 1s}
+.portatil .pant img.on,.tel .pant img.on{opacity:1}
+.portatil .base{height:14px;background:linear-gradient(#2c2c34,#15151b);border-radius:0 0 14px 14px;margin:0 -4%}
+.tel{position:relative;width:min(250px,26vw);aspect-ratio:9/19;border-radius:36px;background:#0b0b12;padding:9px;box-shadow:0 40px 90px rgba(20,16,10,.28),0 0 0 2px #2a2a36;transition:opacity .8s}
+.tel.fuera{opacity:0;pointer-events:none}
+.tel::before{content:"";position:absolute;left:50%;top:9px;transform:translateX(-50%);width:76px;height:20px;background:#0b0b12;border-radius:0 0 14px 14px;z-index:3}
+.tel .pant{position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#111}
+.nombre{position:absolute;left:50%;bottom:-2.4rem;transform:translateX(-50%);font-size:.85rem;color:var(--gris);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+@media (max-width:820px){.portatil{width:100%}.celda{height:auto;min-height:420px}}
+.hero h1{font-weight:300;font-size:clamp(2rem,4.2vw,4.2rem);line-height:1.22;max-width:26ch;letter-spacing:-.01em}
+.hero .h2{margin-top:1.4rem;font-size:clamp(1.3rem,2.2vw,2.2rem);line-height:1.35;max-width:34ch;color:var(--gris)}
+.hero .h2 b{color:var(--tinta)}
+.hero .orden{margin-top:3rem;font-size:clamp(1.2rem,1.8vw,1.7rem);font-weight:600}
+.baja{position:fixed;left:50%;bottom:2rem;transform:translateX(-50%);z-index:9;display:flex;align-items:center;gap:1.2rem;padding:1.3rem 2.4rem;border-radius:3rem;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:1px solid var(--linea);font-size:1.6rem;font-weight:600;pointer-events:none;transition:opacity .5s;animation:flota 3s ease-in-out infinite}
+.baja i{display:block;width:2px;height:34px;background:var(--tinta);animation:baja 1.8s ease-in-out infinite;transform-origin:top}
+@keyframes flota{50%{transform:translate(-50%,-6px)}}
+@keyframes baja{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+/* cada web: una pregunta, una frase, la captura, un boton */
+.web{padding:12vh var(--margen);border-top:1px solid var(--linea);display:grid;grid-template-columns:1fr 1.15fr;gap:5vw;align-items:center}
+.web:nth-child(even){direction:rtl}.web:nth-child(even) > *{direction:ltr}
+.web h2{font-weight:300;font-size:clamp(1.8rem,3.2vw,3.2rem);line-height:1.2;max-width:22ch}
+.web p{margin-top:1.2rem;max-width:44ch;color:var(--gris)}
+.web small{display:block;margin-top:1.6rem;font-size:.9rem;color:var(--gris);opacity:.8}
+.web .marco{display:block;overflow:hidden;border-radius:12px;box-shadow:0 30px 60px rgba(30,25,20,.14);background:#eee}
+.web .marco img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;display:block;filter:grayscale(1);transition:filter .6s,transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.web .marco:hover img,.web.movil .marco:hover img{filter:none;transform:scale(1.02)}
+.web.movil .marco{width:min(320px,60%);margin:0 auto;border-radius:30px;aspect-ratio:9/19;background:#0b0b12;padding:10px}
+.web.movil .marco img{aspect-ratio:auto;height:100%;border-radius:22px}
+.boton{display:inline-block;margin-top:1.8rem;background:var(--tinta);color:#fff;padding:1rem 1.6rem;border-radius:2rem;font-weight:600;font-size:1.05rem;border:0;cursor:pointer}
+.boton:hover{background:#000}.boton.claro{background:#fff;color:var(--tinta);border:1px solid var(--tinta)}
+.boton.wa{background:#25d366;color:#fff}.boton.wa:hover{background:#1ebe5a}
+@media (max-width:820px){.web{grid-template-columns:1fr;gap:2rem}.web:nth-child(even){direction:ltr}}
+/* herramientas, como funciona, formulario */
+.bloque{padding:14vh var(--margen);border-top:1px solid var(--linea)}
+.bloque h2{font-weight:300;font-size:clamp(1.9rem,3.4vw,3.4rem);line-height:1.2;max-width:22ch}
+.bloque > p{margin-top:1.2rem;max-width:52ch;color:var(--gris)}.bloque > p b{color:var(--tinta)}
+.lista{list-style:none;margin-top:3rem;display:grid;gap:0}
+.lista li{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:baseline;border-top:1px solid var(--linea);padding:1.4rem 0}
+.lista li:last-child{border-bottom:1px solid var(--linea)}
+.lista li b{font-size:clamp(1.2rem,1.9vw,1.9rem);font-weight:600}.lista li span{color:var(--gris)}
+.bloque > p{max-width:none}
+.oscuro{background:var(--tinta);color:#f4f1ec}.oscuro .num{background:#fff;color:var(--tinta)}.oscuro .pasos li span{color:rgba(244,241,236,.7)}.oscuro h2{color:#fff}
+.pasos{list-style:none;margin-top:3rem;display:grid;grid-template-columns:repeat(3,1fr);gap:3rem}
+.pasos li b{display:block;font-size:1.3em;margin-bottom:.5rem}.pasos li span{color:var(--gris)}
+.promesa{margin-top:3.5rem;font-size:clamp(1.4rem,2.4vw,2.4rem);font-weight:600}
+@media (max-width:820px){.lista li,.pasos{grid-template-columns:1fr}}
+.form{margin-top:3rem;display:grid;gap:1.4rem;max-width:720px}
+.form label{display:grid;gap:.45rem;font-size:.95rem;color:var(--gris)}
+.form input[type=text],.form input[type=email],.form textarea{padding:.9rem 1rem;border:1px solid var(--tinta);border-radius:12px;background:#fff;color:var(--tinta);font-size:1.05rem}
+.form textarea{min-height:130px;resize:vertical}
+.form .opciones{display:grid;grid-template-columns:1fr 1fr;gap:.6rem 1.4rem;font-size:1.05rem;color:var(--tinta)}
+.form .opciones label{display:flex;flex-direction:row;align-items:center;gap:.6rem;color:var(--tinta)}
+.form input[type=checkbox]{width:1.2rem;height:1.2rem;accent-color:var(--tinta)}
+.form .aviso{color:var(--verde);font-weight:600}.form .aviso.mal{color:#a33}
+@media (max-width:820px){.form .opciones{grid-template-columns:1fr}}
+/* el asistente: burbujas, botones para elegir, texto solo cuando hace falta */
+.escribir{padding-top:8vh}
+.charla{display:grid;grid-template-columns:344px 1fr;gap:1rem;align-items:start;margin-top:1rem;max-width:1100px}
+/* el tendero: pixel art hecho con PixelLab (personaje de 128, cuadros de animacion de 172x172 con aire).
+   Se dibuja al doble sin suavizar. Quieto por defecto; parpadea de vez en cuando; un gesto por momento, una sola vez. */
+.tendero{position:sticky;top:14vh;width:344px;height:344px;margin:0 auto;overflow:visible}
+.tendero i{display:block;width:344px;height:344px;image-rendering:pixelated;background:url("../img/tendero/idle.png") 0 0 / 2408px 344px no-repeat}
+.tendero.blink i{animation:g-idle 1s steps(7) 1}
+.tendero.wave i{background-image:url("../img/tendero/wave.png");animation:g-wave 1s steps(6) 1 forwards}
+.tendero.talk i{background-image:url("../img/tendero/talk.png");animation:g-talk .9s steps(6) 1 forwards}
+.tendero.thumbs i{background-image:url("../img/tendero/thumbs.png");animation:g-thumbs 1s steps(6) 1 forwards}
+@keyframes g-idle{to{background-position:-2408px 0}}@keyframes g-wave{to{background-position:-2064px 0}}@keyframes g-talk{to{background-position:-2064px 0}}@keyframes g-thumbs{to{background-position:-2064px 0}}
+.tendero .sombra{position:absolute;left:112px;top:286px;width:120px;height:14px;border-radius:50%;background:rgba(0,0,0,.10)}
+@media (max-width:820px){.tendero{position:static;width:172px;height:172px}.tendero i{width:172px;height:172px;background-size:1204px 172px}.tendero.blink i{animation-name:g-movil}.tendero.wave i,.tendero.talk i,.tendero.thumbs i{animation-name:g-movil-6}@keyframes g-movil{to{background-position:-1204px 0}}@keyframes g-movil-6{to{background-position:-1032px 0}}.tendero .sombra{left:56px;top:143px;width:60px;height:8px}}
+.chat{max-width:720px;display:grid;gap:.9rem;min-height:208px}
+.bur{max-width:85%;padding:1rem 1.3rem;border-radius:20px;line-height:1.45;opacity:0;transform:translateY(8px);animation:entra .35s forwards}
+.bur.bot{background:#fff;border:1px solid var(--linea);border-bottom-left-radius:6px;justify-self:start}
+.bur.yo{background:var(--tinta);color:#fff;border-bottom-right-radius:6px;justify-self:end}
+.bur.pensando{width:70px;display:flex;gap:6px;justify-content:center}.bur.pensando i{width:8px;height:8px;border-radius:50%;background:var(--gris);animation:pulsa 1s infinite}.bur.pensando i:nth-child(2){animation-delay:.2s}.bur.pensando i:nth-child(3){animation-delay:.4s}
+@keyframes entra{to{opacity:1;transform:none}}@keyframes pulsa{50%{opacity:.3;transform:translateY(-3px)}}
+.opc{display:flex;flex-wrap:wrap;gap:.6rem;justify-self:start;max-width:90%;opacity:0;animation:entra .35s .15s forwards}
+.opc button{background:#fff;border:1px solid var(--tinta);border-radius:2rem;padding:.7rem 1.2rem;font-size:1rem;cursor:pointer}
+.opc button:hover{background:var(--tinta);color:#fff}
+.opc button.atras{border-color:var(--linea);color:var(--gris)}
+.escribe{display:flex;gap:.6rem;justify-self:stretch;opacity:0;animation:entra .35s .15s forwards}
+.escribe input{flex:1;padding:.9rem 1.1rem;border:1px solid var(--tinta);border-radius:2rem;font-size:1.05rem;background:#fff}
+.escribe button{background:var(--tinta);color:#fff;border:0;border-radius:2rem;padding:0 1.3rem;font-weight:600;cursor:pointer}
+.resumen{background:#fff;border:1px solid var(--linea);border-radius:16px;padding:1.2rem 1.4rem;font-size:1rem;white-space:pre-line;justify-self:start;max-width:90%}
+.chat .boton{margin-top:0}
+.directo{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;margin-top:1.4rem}
+.directo a.correo{font-weight:600;border-bottom:1px solid var(--tinta);font-size:1.15rem}
+.flot{position:fixed;right:1.4rem;bottom:1.4rem;z-index:9;background:#25d366;color:#fff;padding:.9rem 1.3rem;border-radius:2rem;font-weight:700;box-shadow:0 12px 30px rgba(0,0,0,.18);display:flex;align-items:center;gap:.6rem}
+footer{padding:2.6rem var(--margen);font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gris);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-top:1px solid var(--linea)}
+.revela{opacity:0;transform:translateY(18px)}
+.mancha{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(90px);opacity:.7}
+.m1{width:52vw;height:52vw;left:-14vw;top:-18vw;background:radial-gradient(circle,#ece7dc,transparent 70%)}
+.m2{width:44vw;height:44vw;right:-12vw;top:30vh;background:radial-gradient(circle,#e3e7ea,transparent 70%)}
+.linea{position:fixed;pointer-events:none;z-index:0;background:rgba(28,28,30,.16)}.linea.h{height:1px;left:0;top:0}.linea.v{width:1px;left:0;top:0}
+.hero,section,footer{position:relative;z-index:1}
+@media (prefers-reduced-motion:reduce){.revela{opacity:1;transform:none}.baja{animation:none}}
+</style>
+</head>
+<body>
+<div class="mancha m1" aria-hidden="true"></div><div class="mancha m2" aria-hidden="true"></div>
+<div class="baja" id="baja" aria-hidden="true"><span>Scroll</span><i></i></div>
+<a class="flot" href="https://wa.me/34900000000" target="_blank" rel="noopener">💬 Write to us</a>
+
+<header class="cab"><a class="marca" href="#">Negocio</a><nav><a href="#webs">Websites</a><a href="#herramientas">Tools</a><a href="#como">How it works</a><a href="#escribir">Write to us</a><span class="idioma"><a href="../es/" class="" data-idioma="es">ES</a><a href="../en/" class="on" data-idioma="en">EN</a></span></nav></header>
+
+<section class="hero">
+  <div>
+    <span class="num">0</span>
+    <h1>We build <b>your business website</b>.</h1>
+    <p class="h2">And the <b>tools to run it better</b>: appointments, expenses, quotes, sales.</p>
+    <p class="orden">Scroll and find what looks like yours. ↓</p>
+  </div>
+  <div class="celda">
+    <div class="portatil" id="portatil"><div class="tapa"><div class="pant"><img src="../img/experiencia.jpg" alt="" data-id="experiencia" class="on"><img src="../img/cinematica.jpg" alt="" data-id="cinematica" class=""><img src="../img/corporativa.jpg" alt="" data-id="corporativa" class=""><img src="../img/galeria.jpg" alt="" data-id="galeria" class=""><img src="../img/lateral.jpg" alt="" data-id="lateral" class=""></div></div><div class="base"></div><span class="nombre" id="nombreTel"></span></div>
+    <div class="tel fuera" id="telefono"><div class="pant"><img src="../img/isometrica_movil.jpg" alt="" class="on"></div></div>
+  </div>
+</section>
+
+<div id="webs"></div>
+<section class="web" id="w-experiencia">
+  <div><span class="num">1</span><h2 class="revela">Do you have a business and want it to look good?</h2><p>A website that opens like your shop, shows what you do and where you are, and where the phone number taps and calls.</p>
+    <a class="boton" href="../experiencia/" target="_blank" rel="noopener">See how it would look →</a>
+    <small>This is a sample. We make it with your photos, your words and your name.</small></div>
+  <a class="marco" href="../experiencia/" target="_blank" rel="noopener"><img src="../img/experiencia.jpg" alt="" loading="lazy"></a>
+</section>
+<section class="web movil" id="w-isometrica">
+  <div><span class="num">2</span><h2 class="revela">Do you have a shop or sell a product?</h2><p>Your shop on the phone, with people walking in, to show what you sell in a way people remember.</p>
+    <a class="boton" href="../isometrica/" target="_blank" rel="noopener">See how it would look →</a>
+    <small>This is a sample. We make it with your photos, your words and your name.</small></div>
+  <a class="marco" href="../isometrica/" target="_blank" rel="noopener"><img src="../img/isometrica_movil.jpg" alt="" loading="lazy"></a>
+</section>
+<section class="web" id="w-cinematica">
+  <div><span class="num">3</span><h2 class="revela">Want to impress? A tattoo studio, a brand, an artist?</h2><p>Your story told like a film: read by scrolling, with music and your images.</p>
+    <a class="boton" href="../cinematica/" target="_blank" rel="noopener">See how it would look →</a>
+    <small>This is a sample. We make it with your photos, your words and your name.</small></div>
+  <a class="marco" href="../cinematica/" target="_blank" rel="noopener"><img src="../img/cinematica.jpg" alt="" loading="lazy"></a>
+</section>
+<section class="web" id="w-corporativa">
+  <div><span class="num">4</span><h2 class="revela">Are you a law firm, a clinic, an advisory?</h2><p>Seriousness without noise: they trust you before they call. Your numbers, your team, how you work.</p>
+    <a class="boton" href="../corporativa/" target="_blank" rel="noopener">See how it would look →</a>
+    <small>This is a sample. We make it with your photos, your words and your name.</small></div>
+  <a class="marco" href="../corporativa/" target="_blank" rel="noopener"><img src="../img/corporativa.jpg" alt="" loading="lazy"></a>
+</section>
+<section class="web" id="w-galeria">
+  <div><span class="num">5</span><h2 class="revela">Do you sell flats, cars, things that sell with photos?</h2><p>Your photos rule: each item with its gallery, its details and a filter to find it.</p>
+    <a class="boton" href="../galeria/" target="_blank" rel="noopener">See how it would look →</a>
+    <small>This is a sample. We make it with your photos, your words and your name.</small></div>
+  <a class="marco" href="../galeria/" target="_blank" rel="noopener"><img src="../img/galeria.jpg" alt="" loading="lazy"></a>
+</section>
+<section class="web" id="w-lateral">
+  <div><span class="num">6</span><h2 class="revela">Want something nobody else has?</h2><p>A website that is a game: you walk it, discover it and don't forget it.</p>
+    <a class="boton" href="../lateral/" target="_blank" rel="noopener">See how it would look →</a>
+    <small>This is a sample. We make it with your photos, your words and your name.</small></div>
+  <a class="marco" href="../lateral/" target="_blank" rel="noopener"><img src="../img/lateral.jpg" alt="" loading="lazy"></a>
+</section>
+
+<section id="herramientas" class="bloque">
+  <span class="num">7</span>
+  <h2 class="revela">Is your problem not the website, but the day-to-day?</h2>
+  <p>We also build <b>web apps for your business</b>: simple programs that run in the browser, on your phone and on your computer, with nothing to install. For what you keep today on paper, spreadsheets or WhatsApp.</p>
+  <ul class="lista"><li><b>Want customers to book online?</b><span>They pick a time on their phone and you see it in your calendar.</span></li><li><b>Want to control your expenses and know who owes you?</b><span>Log it from your phone and see clear numbers at month end.</span></li><li><b>Want quotes and invoices without the struggle?</b><span>A quote in two minutes, an invoice with one tap.</span></li><li><b>Want to sell online?</b><span>An online shop with your products, payments and shipping.</span></li><li><b>Same report or paperwork every time?</b><span>Enter the data once and it comes out done, with your logo.</span></li><li><b>Something else?</b><span>Tell us. If we can build it, we'll say how; if not, we'll say that too.</span></li></ul>
+</section>
+
+<section id="como" class="bloque oscuro">
+  <span class="num">8</span>
+  <h2 class="revela">And how does this work?</h2>
+  <ol class="pasos"><li><b>1. You write to us.</b><span>On WhatsApp, by email or with the form below. You tell us what you have and what you want.</span></li><li><b>2. We show you a proposal.</b><span>In a few days: how it would look, what it includes and what it costs. No commitment.</span></li><li><b>3. You make it yours.</b><span>You give us your photos, your words and your logo if you have one. We do the rest and hand it over working, with the keys to everything.</span></li></ol>
+  <p class="promesa">If we can't build it, we'll tell you.</p>
+</section>
+
+<section id="escribir" class="bloque escribir">
+  <span class="num">9</span>
+  <div class="charla">
+  <div class="tendero" id="tendero" aria-hidden="true"><i></i><span class="sombra"></span></div>
+  <div class="chat" id="chat" data-hola="Hi. I'm the Negocio assistant. Four quick questions and we'll prepare a proposal. Shall we start?" data-empezar="Let's start" data-otro="Tell me in your own words" data-escribe="Type here…" data-ok="OK" data-atras="← Change"
+       data-resumen="This is what I'll send to the team:" data-wa="Send on WhatsApp" data-correo="Send by email" data-gracias="We'll reply within 24 working hours. And if we can't build it, we'll tell you."
+       data-p1="What kind of business do you have?" data-p1op="Bar or restaurant|Shop|Hair salon, spa, beauty|Law firm, clinic, advisory|Real estate or photo-based sales|Other" data-p2="What do you need?" data-p2op="A website for my business|Sell online|Online booking|Control expenses and payments|Quotes and invoices|Something else" data-p3="Do you already have anything? (website, logo, photos)" data-p3op="Nothing yet|I have a logo and photos|I have a website I want to change|I don't know" data-p4="How do we contact you? Write your name and your WhatsApp or email."
+       data-r1="Business" data-r2="Needs" data-r3="Has" data-r4="Contact"></div>
+  </div>
+  <h2 class="revela" style="margin-top:6rem;font-size:clamp(1.5rem,2.4vw,2.4rem)">Or write to us directly</h2>
+  <div class="directo">
+    <a class="boton wa" href="https://wa.me/34900000000" target="_blank" rel="noopener" style="margin-top:0">💬 Write on WhatsApp</a>
+    <a class="correo" href="mailto:hola@negocio.es">hola@negocio.es</a>
+  </div>
+</section>
+
+<footer><span>© 2026 Negocio</span><span>No cookies · no tracking</span></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  document.querySelectorAll("[data-idioma]").forEach(a => a.addEventListener("click", () => { try { localStorage.setItem("idioma", a.dataset.idioma); } catch(e){} }));
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  if (!location.hash) scrollTo(0, 0);
+  // EL ASISTENTE: cuatro preguntas, botones para elegir, texto solo en "otra cosa" y en el contacto.
+  // Al final compone el mensaje y lo abre en WhatsApp o en el correo ya escrito: no hace falta servidor.
+  (function(){
+    const ch = document.getElementById("chat"), D = ch.dataset, R = {}; let paso = 0, empezado = false;
+    const PREG = [["p1","p1op","r1"],["p2","p2op","r2"],["p3","p3op","r3"],["p4",null,"r4"]];
+    const espera = ms => new Promise(r => setTimeout(r, ms));
+    function limpia(){ ch.querySelectorAll(".opc,.escribe").forEach(e => e.remove()); }
+    const tendero = document.getElementById("tendero");
+    // una animacion corta y vuelta a la espera: el navegador vuelve solo al reposo cuando termina (animationend)
+    // Un gesto nuevo cancela la vuelta a la espera del anterior: si no, el pulgar (que se sostiene 1 s)
+    // apagaba los brazos abiertos de la pregunta siguiente a medio hacer.
+    let volver = null;
+    function gesto(nombre){ if (!tendero) return; clearTimeout(volver); volver = null; const i = tendero.querySelector("i"); tendero.className = "tendero"; void i.offsetWidth; tendero.classList.add(nombre); }
+    if (tendero){ tendero.querySelector("i").addEventListener("animationend", e => { clearTimeout(volver);
+      if (e.animationName.startsWith("g-idle") || e.animationName === "g-movil") tendero.className = "tendero";
+      else volver = setTimeout(() => { tendero.className = "tendero"; }, 1000); });   // los gestos se sostienen 1 s
+      // quieto; parpadea de vez en cuando (la animacion de espera lleva el parpadeo)
+      (function parpadea(){ setTimeout(() => { if (tendero.className === "tendero") gesto("blink"); parpadea(); }, 4000 + Math.random()*5000); })(); }
+    async function bot(texto, g = null){ const p = document.createElement("div"); p.className = "bur bot pensando"; p.innerHTML = "<i></i><i></i><i></i>"; ch.appendChild(p); await espera(450); p.className = "bur bot"; p.textContent = texto; if (empezado) p.scrollIntoView({block:"nearest", behavior:"smooth"}); if (g) gesto(g); }
+    function yo(texto){ const b = document.createElement("div"); b.className = "bur yo"; b.textContent = texto; ch.appendChild(b); gesto("thumbs"); }   // el cliente responde: pulgar arriba
+    function opciones(lista, alElegir, conAtras){ const o = document.createElement("div"); o.className = "opc";
+      lista.forEach(op => { const b = document.createElement("button"); b.type = "button"; b.textContent = op; b.addEventListener("click", () => { limpia(); yo(op); alElegir(op); }); o.appendChild(b); });
+      if (conAtras){ const a = document.createElement("button"); a.type = "button"; a.className = "atras"; a.textContent = D.atras; a.addEventListener("click", () => { limpia(); paso = Math.max(0, paso-1); pregunta(); }); o.appendChild(a); }
+      ch.appendChild(o); if (empezado) o.scrollIntoView({block:"nearest"}); }
+    function texto(alEnviar){ const f = document.createElement("form"); f.className = "escribe"; f.innerHTML = `<input type="text" required placeholder="${D.escribe}"><button type="submit">${D.ok}</button>`;
+      f.addEventListener("submit", e => { e.preventDefault(); const v = f.querySelector("input").value.trim(); if (!v) return; limpia(); yo(v); alEnviar(v); }); ch.appendChild(f); f.querySelector("input").focus({preventScroll:true}); }
+    async function pregunta(){
+      const [pk, opk, rk] = PREG[paso]; if (paso > 0) await espera(1300); await bot(D[pk], "talk");
+      if (opk){ const lista = D[opk].split("|"), otro = lista[lista.length-1];
+        opciones(lista, async op => { if (op === otro){ await bot(D.otro); texto(v => { R[rk] = otro + ": " + v; paso++; siguiente(); }); } else { R[rk] = op; paso++; siguiente(); } }, paso > 0); }
+      else texto(v => { R[rk] = v; paso++; siguiente(); });
+    }
+    async function siguiente(){ if (paso < PREG.length) return pregunta(); await bot(D.resumen);
+      const lineas = [`${D.r1}: ${R.r1||"-"}`, `${D.r2}: ${R.r2||"-"}`, `${D.r3}: ${R.r3||"-"}`, `${D.r4}: ${R.r4||"-"}`], msg = lineas.join("\n");
+      const r = document.createElement("div"); r.className = "resumen"; r.textContent = msg; ch.appendChild(r);
+      const o = document.createElement("div"); o.className = "opc";
+      o.innerHTML = `<a class="boton wa" target="_blank" rel="noopener" href="https://wa.me/34900000000?text=${encodeURIComponent(msg)}">💬 ${D.wa}</a><a class="boton claro" href="mailto:hola@negocio.es?subject=${encodeURIComponent(D.r2)}&body=${encodeURIComponent(msg)}">✉ ${D.correo}</a>`;
+      const a = document.createElement("button"); a.type = "button"; a.className = "atras"; a.textContent = D.atras; a.addEventListener("click", () => { r.remove(); limpia(); paso = 0; pregunta(); }); o.appendChild(a);
+      ch.appendChild(o); await bot(D.gracias, "wave"); }
+    (async () => { await bot(D.hola, "wave"); opciones([D.empezar], () => { empezado = true; paso = 0; pregunta(); }); })();
+  })();
+  // la portada pasa las webs: el portatil las de ordenador, y en el turno de la tienda se apaga y aparece el telefono
+  { const ims=[...document.querySelectorAll(".portatil .pant img")], n=document.getElementById("nombreTel"), N={"experiencia": "Business", "isometrica": "Shop", "cinematica": "Cinematic", "corporativa": "Corporate", "galeria": "Gallery", "lateral": "Level"}, L=["experiencia", "isometrica", "cinematica", "corporativa", "galeria", "lateral"], port=document.getElementById("portatil"), tel=document.getElementById("telefono"); let i=0; n.textContent=N[L[0]];
+    setInterval(()=>{ i=(i+1)%L.length; const id=L[i], movil = id==="isometrica"; n.textContent=N[id]; if (!movil) ims.forEach(im => im.classList.toggle("on", im.dataset.id===id)); port.classList.toggle("fuera", movil); tel.classList.toggle("fuera", !movil); }, 4000); }
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  gsap.registerPlugin(ScrollTrigger);
+  document.querySelectorAll(".revela").forEach(el => gsap.to(el, {opacity:1, y:0, ease:"none", scrollTrigger:{trigger:el, start:"top 92%", end:"top 70%", scrub:.6}}));
+  document.querySelectorAll(".web").forEach(el => gsap.from(el.querySelector(".marco"), {opacity:0, y:30, ease:"none", scrollTrigger:{trigger:el, start:"top 90%", end:"top 60%", scrub:.6}}));
+  ScrollTrigger.create({start:"top -120", onEnter(){ gsap.to("#baja", {opacity:0, duration:.4}); }, onLeaveBack(){ gsap.to("#baja", {opacity:1, duration:.4}); }});
+  gsap.to(".m1", {x:"8vw", y:"6vw", duration:26, yoyo:true, repeat:-1, ease:"sine.inOut"}); gsap.to(".m2", {x:"-6vw", y:"-8vw", duration:32, yoyo:true, repeat:-1, ease:"sine.inOut"});
+  function linea(){ const h = Math.random() < .5, el = document.createElement("div"); el.className = "linea " + (h ? "h" : "v"); const desde = Math.random() < .5 ? -1 : 1, dur = 7 + Math.random()*5;
+    if (h){ el.style.top = (8 + Math.random()*84) + "vh"; el.style.width = "38vw"; gsap.fromTo(el, {x: desde < 0 ? "-40vw" : "100vw"}, {x: desde < 0 ? "100vw" : "-40vw", duration:dur, ease:"none", onComplete(){ el.remove(); }}); }
+    else { el.style.left = (6 + Math.random()*88) + "vw"; el.style.height = "38vh"; gsap.fromTo(el, {y: desde < 0 ? "-40vh" : "100vh"}, {y: desde < 0 ? "100vh" : "-40vh", duration:dur, ease:"none", onComplete(){ el.remove(); }}); }
+    document.body.appendChild(el); setTimeout(linea, 3000 + Math.random()*4000); }
+  setTimeout(linea, 1500);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>[Título] — [Subtítulo]</title>
+<meta name="description" content="[Una frase que resuma el contenido.]">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Nunito:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+<!-- El nivel es la web: se avanza con la rueda, las flechas o los botones; cada faro es una sección. -->
+<canvas id="mundo"></canvas>
+
+<header class="hud">
+  <a class="marca" href="#">[Título]</a>
+  <div class="contador"><img src="img/hud_gema.webp" alt=""><b id="gemas">0</b><span>/ <i id="gemasTotal">0</i></span></div>
+  <div class="progreso" aria-hidden="true"><i id="barra"></i></div>
+</header>
+
+<!-- cartel de inicio: como moverse, en el centro, hasta el primer gesto -->
+<div class="inicio" id="inicio">
+  <div class="inicio-marco">
+    <h2>Cómo moverse</h2>
+    <ul>
+      <li><b class="tecla">rueda</b><span>Gira la rueda del ratón para avanzar</span></li>
+      <li><b class="tecla">← →</b><span>O usa las flechas</span></li>
+      <li><b class="tecla">espacio</b><span>Salta</span></li>
+      <li class="movil"><b class="tecla">◀ ▶ ▲</b><span>En el móvil, los botones de abajo</span></li>
+    </ul>
+    <p>Cada faro es una sección. Al llegar, el personaje se para y te la enseña.</p>
+    <button id="empezar" type="button">Empezar ▶</button>
+  </div>
+</div>
+
+<!-- los paneles de cada faro: se muestran encima del faro al llegar -->
+<div class="panel" id="panel" hidden>
+  <div class="panel-marco">
+    <button class="cerrar" id="cerrar" type="button" aria-label="Cerrar">×</button>
+    <h2 id="panelTitulo"></h2>
+    <div id="panelCuerpo"></div>
+    <button class="seguir" id="seguir" type="button">Seguir ▶</button>
+  </div>
+</div>
+
+<div class="final" id="final" hidden>
+  <div class="final-marco">
+    <h2>[Mensaje final]</h2>
+    <p>[Una frase de cierre. Debajo, un enlace o dos.]</p>
+    <p class="enlaces"><a href="#">[Enlace 1]</a><a href="#">[Enlace 2]</a></p>
+    <button id="reiniciar" type="button">Volver al principio ↺</button>
+  </div>
+</div>
+
+<template id="s1"><p>[Texto de la sección 1. Dos o tres frases.]</p><p>[Segunda frase.]</p></template>
+<template id="s2"><ul><li><b>[Elemento 1]</b><span>[Una línea.]</span></li><li><b>[Elemento 2]</b><span>[Una línea.]</span></li><li><b>[Elemento 3]</b><span>[Una línea.]</span></li></ul></template>
+<template id="s3"><ol><li><b>[Paso 1]</b><span>[Una línea.]</span></li><li><b>[Paso 2]</b><span>[Una línea.]</span></li><li><b>[Paso 3]</b><span>[Una línea.]</span></li></ol></template>
+<template id="s4"><p class="grande">[Una frase grande.]</p><p>[Dos líneas que la acompañen.]</p></template>
+<template id="s5"><p>[Cierre.]</p><p class="enlaces"><a href="#">[Enlace 1]</a><a href="#">[Enlace 2]</a><a href="#">[Enlace 3]</a></p><small>© [Año] [Título]. Todos los derechos reservados. Ilustraciones protegidas por derechos de autor.</small></template>
+
+<nav class="mandos" aria-label="Controles">
+  <button id="izq" type="button" aria-label="Izquierda">◀</button>
+  <button id="der" type="button" aria-label="Derecha">▶</button>
+  <button id="salta" type="button" aria-label="Saltar">▲</button>
+</nav>
+
+<nav class="mapa" aria-label="Secciones">
+  <button data-faro="0" type="button">[Sec. 1]</button>
+  <button data-faro="1" type="button">[Sec. 2]</button>
+  <button data-faro="2" type="button">[Sec. 3]</button>
+  <button data-faro="3" type="button">[Sec. 4]</button>
+  <button data-faro="4" type="button">[Sec. 5]</button>
+</nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

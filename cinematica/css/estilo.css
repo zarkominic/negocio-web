@@ -1,0 +1,125 @@
+/* web-cinematica — plantilla de web narrativa para cualquier negocio.
+   Paleta sacada del arte: noche índigo, violeta, luna crema, fuego ámbar. */
+:root{
+  --noche:#120f22; --indigo:#1a1633; --violeta:#6c4fa0; --luna:#f4ecd6; --ambar:#f0a24a;
+  --tinta:#f1ecdf; --tinta2:rgba(241,236,223,.72); --margen:6vw;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;background:var(--noche);color:var(--tinta)}
+body{font-family:"Shippori Mincho",Georgia,serif;font-size:clamp(1.1rem,.45vw + .95rem,1.45rem);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--ambar);color:var(--noche)}
+
+/* ── la luna: indicador de progreso ────────────── */
+.luna{position:fixed;right:var(--margen);top:1.4rem;width:64px;height:64px;z-index:30;pointer-events:none;opacity:0}
+.luna img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.luna-disco{filter:drop-shadow(0 0 10px rgba(244,236,214,.35))}
+.luna-sombra{position:absolute;inset:6%;border-radius:50%;background:var(--noche);transform-origin:right center;transform:scaleX(1)}
+.luna-marco{opacity:.85}
+
+header{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:1.6rem var(--margen);font-size:1rem;opacity:0;
+  background:linear-gradient(180deg,rgba(18,15,34,.7),transparent)}
+header .marca{font-weight:700;letter-spacing:.06em}
+header nav a{margin-left:1.8rem;position:relative;color:var(--tinta2)}
+header nav a::after{content:"";position:absolute;left:0;right:100%;bottom:-.2em;height:1px;background:var(--ambar);transition:right .35s}
+header nav a:hover{color:var(--tinta)}header nav a:hover::after{right:0}
+@media (max-width:820px){header nav{display:none}}
+
+#niebla{position:fixed;inset:0;z-index:15;pointer-events:none;mix-blend-mode:screen;opacity:.55}
+
+/* ── escenas ───────────────────────────────────── */
+.escena{position:relative;min-height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+.escena .fondo{position:absolute;inset:-12% 0}
+.escena .fondo img{width:100%;height:100%;object-fit:cover;display:block}
+.velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,15,34,.15) 30%,rgba(18,15,34,.75))}
+.velo-suave{background:linear-gradient(180deg,rgba(18,15,34,.05) 40%,rgba(18,15,34,.55))}
+.velo-portada{background:linear-gradient(180deg,rgba(18,15,34,.2),transparent 30%,transparent 55%,rgba(18,15,34,.85))}
+
+.texto{position:relative;padding:0 var(--margen) 14vh;max-width:60ch}
+h1,h2{font-weight:500;letter-spacing:.01em;line-height:1.05}
+h1{font-size:clamp(3rem,9vw,9rem);color:var(--luna);text-shadow:0 0 40px rgba(108,79,160,.6)}
+h2{font-size:clamp(2rem,4.6vw,4.6rem);color:var(--luna)}
+.antes{color:var(--ambar);letter-spacing:.2em;text-transform:uppercase;font-size:.85rem;margin-bottom:1.2rem}
+.lema{margin-top:1.4rem;color:var(--tinta2);max-width:44ch}
+.texto-cima{margin:0 auto;text-align:center;padding-bottom:20vh}
+.texto-cima p{margin-top:1.4rem;color:var(--tinta2)}
+.baja{position:absolute;left:var(--margen);bottom:5vh;color:var(--tinta2);font-size:.9rem;letter-spacing:.1em;background:none;border:0;font:inherit;cursor:pointer;text-align:left}
+.baja span{display:block;width:1px;height:38px;background:var(--tinta2);margin-top:.6rem;transform-origin:top;animation:baja 1.8s ease-in-out infinite}
+@keyframes baja{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── interludios: vídeo en bucle y el título del capítulo ── */
+.interludio{position:relative;height:70vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.interludio .bucle{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.interludio .velo{background:rgba(18,15,34,.45)}
+.capitulo{position:relative;color:var(--luna);font-size:clamp(1.4rem,2.6vw,2.4rem);letter-spacing:.35em;text-transform:uppercase;font-weight:400}
+
+/* ── el cuadro de diálogo, como en una novela visual ─── */
+.dialogo{position:relative;margin:0 var(--margen) 8vh;max-width:70ch;padding:1.8rem 2.2rem 1.6rem;
+  background:rgba(18,15,34,.78);border:1px solid rgba(244,236,214,.22);backdrop-filter:blur(6px);
+  box-shadow:0 30px 60px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.03)}
+.dialogo::before{content:"";position:absolute;left:1.2rem;right:1.2rem;top:.55rem;height:1px;background:linear-gradient(90deg,transparent,rgba(244,236,214,.35),transparent)}
+.quien{display:inline-block;color:var(--ambar);letter-spacing:.18em;text-transform:uppercase;font-size:.85rem;margin-bottom:.9rem;padding:.2rem .7rem;border:1px solid rgba(240,162,74,.45)}
+.linea{min-height:2.4em;color:var(--tinta);font-size:clamp(1.15rem,1.55vw,1.7rem);line-height:1.55}
+.linea .cursor-tipo{display:inline-block;width:.55em;height:1.1em;vertical-align:-.15em;background:var(--luna);margin-left:.1em;animation:parpadea .9s steps(2) infinite}
+@keyframes parpadea{50%{opacity:0}}
+.sigue{position:absolute;right:1.4rem;bottom:.9rem;color:var(--ambar);font-size:.8rem;animation:sube 1.2s ease-in-out infinite}
+@keyframes sube{50%{transform:translateY(-4px)}}
+
+/* listas dentro del diálogo: opciones y pasos, como elecciones de novela */
+.opciones,.pasos,.datos{list-style:none;margin-top:1.4rem;display:grid;gap:.6rem}
+.opciones li,.pasos li,.datos > div{padding:.8rem 1rem;border:1px solid rgba(244,236,214,.16);background:rgba(244,236,214,.04);opacity:0;transform:translateX(-16px)}
+.opciones li:hover,.pasos li:hover{border-color:rgba(240,162,74,.6);background:rgba(240,162,74,.07)}
+.opciones b,.pasos b,.datos dt{display:block;color:var(--luna);font-weight:500}
+.opciones span,.pasos span,.datos dd{color:var(--tinta2);font-size:.95em}
+.pasos{counter-reset:paso}
+.pasos li{position:relative;padding-left:3rem;counter-increment:paso}
+.pasos li::before{content:counter(paso);position:absolute;left:1rem;top:.85rem;color:var(--ambar);font-size:1.1em}
+.datos a{color:var(--ambar);border-bottom:1px solid rgba(240,162,74,.5)}
+.contactos{margin-top:1.4rem;display:flex;flex-wrap:wrap;gap:.8rem 2rem}
+.contactos a{color:var(--luna);font-size:clamp(1.2rem,1.8vw,1.9rem);border-bottom:1px solid rgba(244,236,214,.35);padding-bottom:.15em}
+.contactos a:hover{color:var(--ambar);border-color:var(--ambar)}
+.dialogo-fin{margin-bottom:14vh}
+
+footer{padding:2.4rem var(--margen);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;color:var(--tinta2);font-size:.85rem;background:var(--noche);line-height:1.5}
+
+.revela{opacity:0;transform:translateY(24px)}
+
+@media (max-width:820px){:root{--margen:6vw}.dialogo{margin:0 4vw 6vh;padding:1.3rem 1.3rem 1.2rem}.luna{width:48px;height:48px}.interludio{height:50vh}}
+@media (prefers-reduced-motion:reduce){.revela{opacity:1;transform:none}.opciones li,.pasos li,.datos > div{opacity:1;transform:none}#niebla,.baja{display:none}.bucle{display:none}}
+
+/* ── v2: lados, taberna, video de fondo, lluvia, musica ─────────── */
+.lado-izq{margin-right:auto}
+.lado-der{margin-left:auto;margin-right:var(--margen)}
+.lado-centro{margin-left:auto;margin-right:auto;text-align:center}
+.lado-centro .contactos{justify-content:center}
+.dialogo.alto{margin-bottom:30vh}
+.escena .bucle-fondo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.interludio{height:100vh}
+.interludio .velo{background:radial-gradient(ellipse at center,rgba(18,15,34,.15),rgba(18,15,34,.6))}
+.capitulo{font-size:clamp(1.6rem,3vw,3rem)}
+
+/* la taberna: conversacion que avanza con el scroll; la escena se queda fija mientras hablan */
+.posada{justify-content:flex-start}
+.posada .capa{position:absolute;inset:-8% -4%}
+.posada .capa-fondo img{filter:saturate(1.05)}
+.posada .capa img{width:100%;height:100%;object-fit:cover;display:block}
+.posada .personaje{position:absolute;bottom:0;height:78vh;width:auto;max-width:44vw;object-fit:contain;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6));z-index:2;opacity:0}
+.posada .pj-izq{left:2vw}
+.posada .pj-der{right:4vw;bottom:0;height:60vh}
+.posada .conversacion{position:relative;z-index:3;min-height:100vh;padding:14vh 0 10vh;display:flex;flex-direction:column;justify-content:flex-end;gap:1.2rem}
+.posada .paso-conv{opacity:0;transform:translateY(24px)}
+.posada .lado-izq{margin-left:calc(var(--margen) + 18vw)}
+.posada .lado-der{margin-right:calc(var(--margen) + 12vw)}
+@media (max-width:820px){.posada .personaje{height:52vh;max-width:60vw}.posada .pj-der{height:40vh}.posada .lado-izq,.posada .lado-der{margin-left:4vw;margin-right:4vw}}
+.quien-tu{color:var(--luna);border-color:rgba(244,236,214,.45)}
+.lado-der .quien{margin-left:auto;display:table}
+.lado-der .linea{text-align:right}
+#lluvia{position:fixed;inset:0;z-index:14;pointer-events:none;opacity:0}
+
+/* musica: boton con barritas que siguen el audio */
+#musica{position:fixed;right:var(--margen);bottom:4vh;z-index:40;width:52px;height:52px;border-radius:50%;border:1px solid rgba(244,236,214,.35);background:rgba(18,15,34,.6);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:0 0 15px;opacity:1;transition:opacity .5s,transform .3s;cursor:pointer}
+#musica::after{content:"activar sonido";position:absolute;right:62px;top:50%;transform:translateY(-50%);color:var(--tinta2);font-size:.8rem;letter-spacing:.12em;white-space:nowrap;opacity:1;transition:opacity .5s}
+#musica.sonando::after{opacity:0}
+#musica:hover{transform:scale(1.06)}
+#musica i{display:block;width:3px;height:6px;background:var(--ambar);border-radius:2px;transition:height .12s}
+#musica.apagada i{height:3px;opacity:.45}

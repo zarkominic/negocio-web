@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tu tienda virtual — una web donde la gente entra</title>
+<meta name="description" content="[Una frase que resuma el contenido.]">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+<!-- En un ordenador, la web va dentro de un teléfono dibujado. En un móvil real, ocupa la pantalla. -->
+<div class="fondo-escritorio" aria-hidden="true"></div>
+<div class="telefono">
+  <div class="muesca" aria-hidden="true"></div>
+  <div class="pantalla">
+    <!-- Todo se dibuja en un escenario de 768×1344 (el formato del juego) que se escala para caber -->
+    <div class="escenario" id="escenario">
+
+      <!-- ═══ PANTALLA 1: EL MENÚ ═══ -->
+      <section class="vista menu" id="menu">
+        <img class="capa" src="img/menu.jpg" alt="">
+        <canvas class="cielo" id="cielo" width="768" height="1344" aria-hidden="true"></canvas>
+        <div class="titulo">
+          <h1>Tu tienda</h1>
+          <p>virtual, abierta 24 h</p>
+        </div>
+        <div class="dueno-menu" id="duenoMenu">
+          <span class="sombra"></span>
+          <img src="img/dueno_sur.webp" alt="">
+        </div>
+        <button class="boton entrar" id="entrar" type="button">Entrar</button>
+        <span class="engranaje" aria-hidden="true">⚙</span>
+        <span class="version">v1.0</span>
+      </section>
+
+      <!-- ═══ PANTALLA 2: LA TIENDA ═══ -->
+      <section class="vista tienda" id="tienda" hidden>
+        <img class="capa" src="img/tienda.jpg" alt="">
+        <!-- muebles y personajes comparten capa: se ordenan en profundidad por la base -->
+        <div class="mundo" id="mundo"></div>
+
+        <!-- puntos calientes: los muebles son las secciones -->
+        <button class="punto" data-panel="p1" style="left:150px;top:520px" type="button"><i></i><span>Así funciona</span></button>
+        <button class="punto" data-panel="p2" style="left:505px;top:500px" type="button"><i></i><span>Lo que ofreces</span></button>
+        <button class="punto" data-panel="p3" style="left:414px;top:930px" type="button"><i></i><span>Cómo se pide</span></button>
+        <button class="punto" data-panel="p4" style="left:380px;top:1150px" type="button"><i></i><span>Dónde y cómo</span></button>
+
+        <!-- el dueño saluda al entrar -->
+        <div class="bocadillo" id="bocadillo"><p class="linea" data-texto="Bienvenido. Esto es una tienda de muestra: puede ser tu peluquería, tu bar, tu spa o tu taller. Toca los puntos rojos para ver cada parte."></p></div>
+
+        <nav class="pestanas">
+          <button data-panel="p1" type="button"><b>◆</b>Así funciona</button>
+          <button data-panel="p2" type="button"><b>◆</b>Ofreces</button>
+          <button data-panel="p3" type="button"><b>◆</b>Pedir</button>
+          <button data-panel="p4" type="button"><b>◆</b>Dónde</button>
+        </nav>
+      </section>
+
+      <!-- ═══ PANELES: suben desde abajo, como en una app ═══ -->
+      <div class="velo-panel" id="veloPanel"></div>
+      <div class="panel" id="p1"><span class="asa"></span><h2>Así funciona</h2><p>Cada mueble de la tienda es una sección de tu web: tocas y se abre. Los personajes pasean para que se vea viva.</p><p>Cambiamos la tienda por tu negocio: una peluquería con sus sillones, un bar con su barra, un spa, un taller. Y tú decides qué se abre en cada sitio.</p></div>
+      <div class="panel" id="p2"><span class="asa"></span><h2>Lo que ofreces</h2><ul><li><b>[Elemento 1]</b><span>[Una línea.]</span></li><li><b>[Elemento 2]</b><span>[Una línea.]</span></li><li><b>[Elemento 3]</b><span>[Una línea.]</span></li></ul></div>
+      <div class="panel" id="p3"><span class="asa"></span><h2>Cómo se pide</h2><ol><li><b>[Paso 1]</b><span>[Una línea.]</span></li><li><b>[Paso 2]</b><span>[Una línea.]</span></li><li><b>[Paso 3]</b><span>[Una línea.]</span></li></ol></div>
+      <div class="panel" id="p4"><span class="asa"></span><h2>Dónde y cómo</h2><p>Aquí irían tu dirección, horario y contacto. Un toque y llama.</p><p class="enlaces"><a href="#">[Enlace 1]</a><a href="#">[Enlace 2]</a><a href="#">[Enlace 3]</a></p><small>© [Año] [Título]. Todos los derechos reservados. Ilustraciones protegidas por derechos de autor.</small></div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

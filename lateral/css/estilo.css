@@ -1,0 +1,60 @@
+/* web-lateral — el nivel es la web. Paleta del arte: amanecer lila, verde de pradera, cian de las gemas. */
+:root{--cielo:#c9b8d8;--pradera:#5f9a4a;--cian:#38e0d0;--tinta:#1d2a2a;--crema:#fff8ea;--madera:#6b4a2b}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#1a1530;font-family:"Nunito",system-ui,sans-serif;color:var(--tinta);-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;border:0;background:none}
+#mundo{position:fixed;inset:0;width:100%;height:100%;display:block}
+
+/* ── HUD del juego ─────────────────────────────────────────────── */
+.hud{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;gap:1.6rem;padding:1rem 1.6rem;pointer-events:none}
+.hud .marca{font-family:"Fredoka",sans-serif;font-weight:700;font-size:1.5rem;color:#fff;text-shadow:0 3px 0 rgba(30,20,50,.55);pointer-events:auto;text-decoration:none}
+.contador{display:flex;align-items:center;gap:.4rem;background:rgba(20,16,40,.55);padding:.35rem .9rem .35rem .5rem;border-radius:2rem;color:#fff;font-family:"Fredoka",sans-serif;font-weight:700;font-size:1.2rem;border:2px solid rgba(255,255,255,.2)}
+.contador img{height:26px;width:auto}.contador span{opacity:.7;font-weight:500}
+.progreso{margin-left:auto;width:min(28vw,260px);height:10px;border-radius:5px;background:rgba(20,16,40,.5);border:2px solid rgba(255,255,255,.25);overflow:hidden}
+.progreso i{display:block;height:100%;width:0;background:var(--cian);box-shadow:0 0 10px var(--cian)}
+.pista{position:fixed;left:50%;bottom:1.4rem;transform:translateX(-50%);z-index:5;color:#fff;background:rgba(20,16,40,.55);padding:.5rem 1.1rem;border-radius:2rem;font-size:.95rem;pointer-events:none;transition:opacity .6s;white-space:nowrap}
+.mandos{position:fixed;left:1.2rem;right:1.2rem;bottom:1.2rem;z-index:6;display:none;justify-content:space-between;pointer-events:none}
+.mandos button{pointer-events:auto;width:74px;height:74px;border-radius:50%;background:rgba(20,16,40,.6);color:#fff;font-size:1.6rem;border:3px solid rgba(255,255,255,.35);touch-action:none;user-select:none}
+.mandos #salta{margin-left:auto}
+@media (pointer:coarse){.mandos{display:flex}.pista{display:none}}
+.mapa{position:fixed;right:1.2rem;top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:.4rem}
+.mapa button{color:#fff;background:rgba(20,16,40,.45);padding:.3rem .8rem;border-radius:1rem;font-size:.85rem;border:2px solid rgba(255,255,255,.15);text-align:left;opacity:.75}
+.mapa button.hecho{border-color:var(--cian);opacity:1}.mapa button:hover{opacity:1}
+@media (max-width:720px){.mapa{display:none}}
+
+/* ── el panel de cada faro: en el estilo de panel del HUD ──────── */
+.panel{position:fixed;z-index:7;left:50%;bottom:32vh;transform:translate(-50%,0);width:min(560px,92vw)}
+.panel-marco{position:relative;background:var(--crema);border:4px solid var(--madera);border-radius:22px;padding:1.6rem 1.8rem 1.4rem;box-shadow:0 18px 40px rgba(20,10,40,.45),inset 0 0 0 3px rgba(255,255,255,.6);font-size:1.05rem;line-height:1.5}
+.panel-marco::after{content:"";position:absolute;left:50%;bottom:-22px;margin-left:-14px;border:14px solid transparent;border-top-color:var(--madera);border-bottom:0}
+.panel h2{font-family:"Fredoka",sans-serif;font-weight:700;color:var(--madera);font-size:1.7rem;margin-bottom:.6rem}
+.panel p{margin-bottom:.6rem}.panel .grande{font-family:"Fredoka",sans-serif;font-size:1.5rem;color:var(--madera)}
+.panel ul,.panel ol{list-style:none;display:grid;gap:.5rem}
+.panel li{padding:.6rem .9rem;border:2px solid rgba(107,74,43,.25);border-radius:12px;background:#fff}
+.panel li b{display:block;color:var(--madera)}.panel li span{opacity:.8;font-size:.95em}
+.panel ol{counter-reset:p}.panel ol li{position:relative;padding-left:2.6rem;counter-increment:p}
+.panel ol li::before{content:counter(p);position:absolute;left:.7rem;top:.6rem;width:1.4rem;height:1.4rem;border-radius:50%;background:var(--cian);color:var(--tinta);font-weight:700;display:grid;place-items:center;font-size:.85rem}
+.panel .enlaces{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem}.panel .enlaces a{color:var(--madera);font-weight:700;border-bottom:2px solid var(--cian)}
+.panel small{display:block;margin-top:.8rem;font-size:.75rem;opacity:.65;line-height:1.4}
+.cerrar{position:absolute;right:.6rem;top:.4rem;font-size:1.6rem;color:var(--madera);opacity:.6}.cerrar:hover{opacity:1}
+
+.seguir{display:block;margin:.9rem 0 0 auto;background:var(--cian);color:var(--tinta);font-family:"Fredoka",sans-serif;font-weight:700;padding:.55rem 1.2rem;border-radius:2rem;box-shadow:0 4px 0 rgba(0,0,0,.2)}
+.seguir:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.final{position:fixed;inset:0;z-index:9;display:grid;place-items:center;background:radial-gradient(ellipse at center,rgba(56,224,208,.25),rgba(20,16,40,.75))}
+.final-marco{background:var(--crema);border:4px solid var(--madera);border-radius:26px;padding:2rem 2.4rem;max-width:min(560px,90vw);text-align:center;box-shadow:0 30px 60px rgba(0,0,0,.5)}
+.final h2{font-family:"Fredoka",sans-serif;color:var(--madera);font-size:2.2rem;margin-bottom:.6rem}
+.final .enlaces{display:flex;justify-content:center;gap:1.4rem;margin:.8rem 0 1.2rem}.final .enlaces a{color:var(--madera);font-weight:700;border-bottom:2px solid var(--cian)}
+.final button{background:var(--madera);color:var(--crema);font-family:"Fredoka",sans-serif;font-weight:700;padding:.7rem 1.4rem;border-radius:2rem}
+
+[hidden]{display:none !important}
+
+/* cartel de inicio */
+.inicio{position:fixed;inset:0;z-index:12;display:grid;place-items:center;background:rgba(20,16,40,.55);backdrop-filter:blur(3px)}
+.inicio-marco{background:var(--crema);border:4px solid var(--madera);border-radius:26px;padding:2rem 2.4rem;max-width:min(520px,92vw);box-shadow:0 30px 60px rgba(0,0,0,.5);text-align:center}
+.inicio h2{font-family:"Fredoka",sans-serif;color:var(--madera);font-size:2.2rem;margin-bottom:1.2rem}
+.inicio ul{list-style:none;display:grid;gap:.7rem;text-align:left;margin-bottom:1.2rem}
+.inicio li{display:grid;grid-template-columns:7.5rem 1fr;align-items:center;gap:1rem;font-size:1.05rem}
+.inicio .tecla{display:inline-block;text-align:center;background:#fff;border:2px solid var(--madera);border-bottom-width:5px;border-radius:10px;padding:.35rem .6rem;font-family:"Fredoka",sans-serif;font-weight:700;color:var(--madera);font-size:1rem}
+.inicio p{font-size:.95rem;opacity:.8;margin-bottom:1.4rem}
+.inicio button{background:var(--cian);color:var(--tinta);font-family:"Fredoka",sans-serif;font-weight:700;font-size:1.2rem;padding:.8rem 1.8rem;border-radius:2rem;box-shadow:0 5px 0 rgba(0,0,0,.2)}
+.inicio button:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.inicio .movil{display:none}@media (pointer:coarse){.inicio .movil{display:grid}}

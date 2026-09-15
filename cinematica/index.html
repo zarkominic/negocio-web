@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Título] — [Subtítulo]</title>
+<meta name="description" content="[Una frase que resuma el contenido.]">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+<!-- La luna se llena mientras bajas: es el indicador de progreso. -->
+<div class="luna" aria-hidden="true">
+  <img class="luna-disco" src="ui/moon_disc.png" alt="">
+  <div class="luna-sombra"></div>
+  <img class="luna-marco" src="ui/reloj_lunar_frame.png" alt="">
+</div>
+
+<header>
+  <a class="marca" href="#inicio">[Título]</a>
+  <nav>
+    <a href="#quienes">[Sección 1]</a>
+    <a href="#hacemos">[Sección 2]</a>
+    <a href="#como">[Sección 3]</a>
+    <a href="#donde">[Sección 4]</a>
+    <a href="#contacto">[Sección 5]</a>
+  </nav>
+</header>
+
+<canvas id="niebla" aria-hidden="true"></canvas>
+<canvas id="lluvia" aria-hidden="true"></canvas>
+
+<audio id="fondo" loop preload="none">
+  <source src="audio/fondo.ogg" type="audio/ogg">
+  <source src="audio/fondo.mp3" type="audio/mpeg">
+</audio>
+<button id="musica" type="button" aria-label="Música de fondo" aria-pressed="true"><i></i><i></i><i></i><i></i><i></i></button>
+
+<div id="smooth-wrapper"><div id="smooth-content">
+
+<!-- ═══ PORTADA ═══ -->
+<section id="inicio" class="escena portada">
+  <div class="fondo" data-speed="0.85"><img src="img/pagoda.jpg" alt=""></div>
+  <div class="velo velo-portada"></div>
+  <div class="texto texto-portada">
+    <p class="antes">[Antetítulo]</p>
+    <h1 class="revela">[Título]</h1>
+    <p class="lema revela">[Subtítulo: una frase corta.]</p>
+  </div>
+  <button class="baja" type="button">baja para entrar<span></span></button>
+</section>
+
+<!-- ═══ INTERLUDIO: el bosque respira ═══ -->
+<section class="interludio">
+  <video class="bucle" autoplay muted loop playsinline preload="metadata" poster="img/paso.jpg">
+    <source src="video/bosque.webm" type="video/webm">
+    <source src="video/bosque.mp4" type="video/mp4">
+  </video>
+  <div class="velo"></div>
+  <p class="capitulo revela">Capítulo uno</p>
+</section>
+
+<!-- ═══ QUIÉNES SOMOS ═══ -->
+<section id="quienes" class="escena">
+  <div class="fondo" data-speed="0.9"><img src="img/templo_amanecer.jpg" alt=""></div>
+  <div class="velo"></div>
+  <div class="dialogo lado-izq alto">
+    <span class="quien">[Voz 1]</span>
+    <p class="linea" data-texto="[Primer párrafo de la sección 1. Se escribe solo, letra a letra, cuando entra en pantalla.]"></p>
+    <span class="sigue" aria-hidden="true">▼</span>
+  </div>
+</section>
+
+<!-- ═══ QUÉ HACEMOS: la posada. Fondo en dos capas de parallax; el dueño entra por la izquierda,
+     quien llega por la derecha, y hablan. Cada tramo de scroll es un «clic» de novela. ═══ -->
+<section id="hacemos" class="escena posada">
+  <div class="capa capa-fondo"><img src="img/taberna.jpg" alt=""></div>
+  <div class="velo velo-suave"></div>
+  <img class="personaje pj-izq" src="img/personajes/izquierda.webp" alt="">
+  <img class="personaje pj-der" src="img/personajes/derecha.webp" alt="">
+  <div class="conversacion">
+    <div class="dialogo lado-izq paso-conv" data-paso="0">
+      <span class="quien">[Voz 1]</span>
+      <p class="linea" data-texto="[Primera línea de diálogo, la dice quien entra por la izquierda.]"></p>
+    </div>
+    <div class="dialogo lado-der paso-conv" data-paso="1">
+      <span class="quien quien-tu">[Voz 2]</span>
+      <p class="linea" data-texto="[Respuesta, la dice quien entra por la derecha.]"></p>
+    </div>
+    <div class="dialogo lado-izq paso-conv" data-paso="2">
+      <span class="quien">[Voz 1]</span>
+      <p class="linea" data-texto="[Tercera línea, que da paso a la lista.]"></p>
+      <ul class="opciones">
+        <li><b>[Elemento 1]</b><span>[Una línea.]</span></li>
+        <li><b>[Elemento 2]</b><span>[Una línea.]</span></li>
+        <li><b>[Elemento 3]</b><span>[Una línea.]</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INTERLUDIO: el templo ═══ -->
+<section class="interludio">
+  <video class="bucle" autoplay muted loop playsinline preload="metadata" poster="img/ruinas.jpg">
+    <source src="video/templo.webm" type="video/webm">
+    <source src="video/templo.mp4" type="video/mp4">
+  </video>
+  <div class="velo"></div>
+  <p class="capitulo revela">Capítulo dos</p>
+</section>
+
+<!-- ═══ CÓMO TRABAJAMOS: el camino ═══ -->
+<section id="como" class="escena">
+  <div class="fondo" data-speed="0.9"><img src="img/veranda.jpg" alt=""></div>
+  <div class="velo"></div>
+  <div class="dialogo lado-der alto">
+    <span class="quien">[Sección 3]</span>
+    <p class="linea" data-texto="[Introducción a una lista ordenada de pasos.]"></p>
+    <ol class="pasos">
+      <li><b>[Paso 1]</b><span>[Una línea.]</span></li>
+      <li><b>[Paso 2]</b><span>[Una línea.]</span></li>
+      <li><b>[Paso 3]</b><span>[Una línea.]</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══ POR QUÉ: la cima ═══ -->
+<section id="porque" class="escena">
+  <div class="fondo" data-speed="0.85"><img src="img/cima.jpg" alt=""></div>
+  <div class="velo velo-suave"></div>
+  <div class="texto texto-cima">
+    <h2 class="revela">[Una frase grande, centrada.]</h2>
+    <p class="revela">[Dos líneas que la acompañen.]</p>
+  </div>
+</section>
+
+<!-- ═══ DÓNDE: el valle con el río ═══ -->
+<section id="donde" class="escena">
+  <video class="fondo bucle bucle-fondo" autoplay muted loop playsinline preload="metadata" poster="img/valle.jpg">
+    <source src="video/valle.webm" type="video/webm">
+    <source src="video/valle.mp4" type="video/mp4">
+  </video>
+  <div class="velo"></div>
+  <div class="dialogo lado-izq">
+    <span class="quien">[Sección 4]</span>
+    <p class="linea" data-texto="[Texto de la sección 4, sobre el vídeo del valle.]"></p>
+    <dl class="datos">
+      <div><dt>[Dato 1]</dt><dd>[Valor]</dd></div>
+      <div><dt>[Dato 2]</dt><dd><a href="#">[Enlace]</a></dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ═══ CONTACTO: la hoguera ═══ -->
+<section id="contacto" class="escena">
+  <div class="fondo" data-speed="0.85"><img src="img/campamento.jpg" alt=""></div>
+  <div class="velo velo-suave"></div>
+  <div class="dialogo dialogo-fin lado-centro">
+    <span class="quien">[Sección 5]</span>
+    <p class="linea" data-texto="[Cierre. Debajo, hasta tres enlaces grandes.]"></p>
+    <p class="contactos">
+      <a href="#">[Enlace 1]</a>
+      <a href="#">[Enlace 2]</a>
+      <a href="#">[Enlace 3]</a>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <span>© [Año] [Título]. Todos los derechos reservados.</span>
+  <span>Ilustraciones, vídeo y música protegidos por derechos de autor. Prohibida su reproducción sin permiso.</span>
+</footer>
+
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"></script>
+<script src="js/sitio.js"></script>
+</body>
+</html>

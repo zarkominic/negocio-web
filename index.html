@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Negocio</title>
+<meta name="robots" content="noindex">
+<link rel="alternate" hreflang="es" href="es/">
+<link rel="alternate" hreflang="en" href="en/">
+<link rel="alternate" hreflang="x-default" href="./">
+<script>
+  // Elige idioma: 1) ?lang=  2) elección guardada  3) idioma del navegador  4) inglés.
+  // Nunca por IP: la IP dice dónde estás, no qué hablas, y el rastreador de Google viene de EE. UU.
+  (function(){
+    var q = new URLSearchParams(location.search).get("lang"), guardado = null;
+    try { guardado = localStorage.getItem("idioma"); } catch(e){}
+    var nav = (navigator.languages && navigator.languages[0]) || navigator.language || "en";
+    var idioma = (q === "es" || q === "en") ? q : (guardado === "es" || guardado === "en") ? guardado : (/^es\b/i.test(nav) ? "es" : "en");
+    location.replace(idioma + "/" + location.hash);
+  })();
+</script>
+</head>
+<body>
+<noscript>
+  <p style="font-family:system-ui;padding:2rem"><a href="es/">Español</a> · <a href="en/">English</a></p>
+</noscript>
+</body>
+</html>
