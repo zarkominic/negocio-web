@@ -58,3 +58,27 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 .inicio button{background:var(--cian);color:var(--tinta);font-family:"Fredoka",sans-serif;font-weight:700;font-size:1.2rem;padding:.8rem 1.8rem;border-radius:2rem;box-shadow:0 5px 0 rgba(0,0,0,.2)}
 .inicio button:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.2)}
 .inicio .movil{display:none}@media (pointer:coarse){.inicio .movil{display:grid}}
+
+/* ── MÓVIL ── el cartel cabe, y en vertical se avisa de girar (el nivel es apaisado) */
+@media (max-width:820px){
+  .inicio-marco{padding:1.4rem 1.2rem;max-width:calc(100vw - 2rem);border-radius:20px}
+  .inicio h2{font-size:1.6rem;margin-bottom:.9rem}
+  .inicio li{grid-template-columns:5.5rem 1fr;gap:.7rem;font-size:.95rem}
+  .inicio .tecla{padding:.3rem .45rem;font-size:.85rem}
+  .inicio p{font-size:.88rem}
+  .inicio button{font-size:1.05rem;padding:.7rem 1.4rem}
+  .hud{padding:.7rem 1rem;gap:.9rem}
+  .hud .marca{font-size:1.1rem}
+  .contador{font-size:1rem;padding:.25rem .7rem .25rem .4rem}
+  .contador img{height:20px}
+  .panel{bottom:26vh;width:calc(100vw - 1.6rem)}
+  .panel-marco{padding:1.2rem 1.2rem 1rem;font-size:.98rem}
+  .panel h2{font-size:1.4rem}
+  .mandos button{width:64px;height:64px}
+}
+/* en vertical, tapa el juego y pide girar: el nivel se lee a lo ancho */
+.gira{position:fixed;inset:0;z-index:20;display:none;place-items:center;text-align:center;background:#1a1530;color:#fff;padding:2rem;font-family:"Fredoka",sans-serif}
+.gira i{display:block;font-size:3rem;margin-bottom:1rem;animation:giraicono 2s ease-in-out infinite}
+@keyframes giraicono{50%{transform:rotate(90deg)}}
+@media (orientation:portrait) and (pointer:coarse){ .gira{display:grid} .hud,.mandos,.mapa,.pista,.inicio{display:none !important} }
+.gira b{font-size:1.5rem;display:block}

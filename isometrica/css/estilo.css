@@ -69,3 +69,11 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 .panel .enlaces{display:flex;flex-wrap:wrap;gap:14px 30px}
 .panel .enlaces a{color:var(--rojo);font-weight:800;border-bottom:3px solid rgba(201,71,62,.5)}
 .panel small{display:block;margin-top:30px;font-size:22px;opacity:.65;line-height:1.4}
+
+/* ── MÓVIL ── el título del menú cabe en 390 px */
+@media (max-width:820px){
+  .titulo h1{font-size:76px}
+  .titulo p{font-size:40px;margin-top:16px}
+  .titulo{top:60px;padding:0 24px}
+  .boton.entrar{left:auto;right:38px;width:auto;min-width:300px}
+}

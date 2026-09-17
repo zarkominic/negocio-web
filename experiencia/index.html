@@ -178,6 +178,27 @@
   #mapa .ficha{right:4%;top:12%}
   #quien .grande{max-width:none}
   @media (max-width:820px){.dos{grid-template-columns:1fr;gap:3rem}#mapa .lienzo{left:14%;top:8%;width:64%;height:86%}}
+  /* ── MÓVIL ── la más difícil: 16:9 en vertical. La persiana se encuadra a la izquierda (donde está el nombre),
+     la pizarra pasa a una columna y el plano se puede arrastrar con el dedo sin llevarse la página. */
+  @media (max-width:820px){
+    #cierre .plano{background-position:22% center}
+    #metodo .valid{grid-template-columns:1fr !important;grid-auto-rows:auto !important;gap:.2rem;margin-top:1vh}
+    #metodo .tablero{left:8%;right:8%;top:10%;bottom:12%}
+    #metodo .valid li b{font-size:clamp(1rem,4.2vw,1.3rem)}
+    #metodo .valid li span{font-size:clamp(.85rem,3.2vw,1rem)}
+    #metodo .valid li svg{width:1.6rem;height:1.6rem}
+    #metodo .valid li{grid-template-columns:1.6rem 1fr;padding:.3rem 0;column-gap:.7rem}
+    #metodo .hoja .tiza-titulo{font-size:.95rem}
+    #mapa .placa{margin:0 1vw 4vh}
+    #svgmapa{touch-action:none}
+    #mapa .ficha{right:4%;top:4%;font-size:.9rem;max-width:22ch}
+    .dos{grid-template-columns:1fr !important;gap:1.4rem}
+    .cab nav a{margin-left:.9rem;font-size:.8rem}
+    .escaparate .frase{font-size:clamp(1.6rem,8vw,2.4rem) !important}
+  }
+  @media (max-width:820px) and (orientation:portrait){
+    #cierre .dintel{display:none}
+  }
 </style>
 </head>
 <body>
@@ -515,7 +536,12 @@
     const img = new Image(); img.src = "img/persiana_a.jpg";
     // esperar a la fuente: el nombre se pinta en la textura con Bricolage, no con la de reserva
     img.onload = () => { (document.fonts ? document.fonts.load("800 300px 'Bricolage Grotesque'") : Promise.resolve())
-      .then(() => { try { if (!window.THREE) throw 0; montar3d(img); } catch(e){ console.warn("sin 3D:", e); sinTres(); } }); };
+      .then(() => { try {
+          // En un móvil en vertical el 3D deforma la persiana (la textura es 16:9 y la pantalla 9:19):
+          // se usa la foto plana, que conserva su proporción con "cover".
+          if (matchMedia("(pointer:coarse) and (orientation:portrait)").matches) throw "movil vertical";
+          if (!window.THREE) throw 0; montar3d(img);
+        } catch(e){ console.warn("sin 3D:", e); sinTres(); } }); };
     img.onerror = sinTres;
     cierre.addEventListener("click", abrir);
     addEventListener("wheel", e => { if (!arrancado){ e.preventDefault(); abrir(); } }, {passive:false});

@@ -13,13 +13,15 @@
 :root{--papel:#fbfaf7;--tinta:#1c1c1e;--gris:#7a7a80;--linea:rgba(28,28,30,.1);--acento:#1c1c1e;--verde:#1f7a4d;--margen:clamp(1.4rem,8vw,10rem)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+html,body{overflow-x:clip;max-width:100%}   /* las lineas del fondo viajan hasta 100vw: sin esto la pagina se desliza de lado */
 body{background:var(--papel);color:var(--tinta);font-family:Manrope,system-ui,sans-serif;font-weight:300;font-size:clamp(1.1rem,.45vw + .95rem,1.4rem);line-height:1.55;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}b,strong{font-weight:600}
 button,input,textarea{font:inherit}
 .cab{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:1.4rem var(--margen);font-size:.9rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gris);background:linear-gradient(180deg,rgba(251,250,247,.95),rgba(251,250,247,0))}
 .cab .marca{color:var(--tinta);font-weight:700}
 .cab a{margin-left:1.6rem}.cab .idioma{margin-left:2.2rem}.cab .idioma a{margin-left:.6rem;opacity:.5}.cab .idioma a.on{opacity:1;color:var(--tinta)}
-@media (max-width:820px){.cab nav a:not(.idioma a){display:none}.cab .idioma a{display:inline}}
+@media (max-width:820px){.cab nav a:not(.idioma a):not(.cta-cab){display:none}.cab .idioma a{display:inline}.cab .cta-cab{display:inline;border:1px solid currentColor;padding:.35rem .8rem;border-radius:2rem;margin-left:.8rem}}
+@media (min-width:821px){.cab .cta-cab{display:none}}
 .num{display:inline-block;align-self:flex-start;background:var(--tinta);color:#fff;font-size:.8rem;padding:.2rem .55rem;font-weight:700;letter-spacing:.05em;margin-bottom:1.6rem}
 /* portada: una frase y una orden */
 .hero{min-height:100vh;padding:14vh var(--margen) 8vh;display:grid;grid-template-columns:1fr 1.05fr;gap:4vw;align-items:center}
@@ -37,7 +39,13 @@ button,input,textarea{font:inherit}
 .tel::before{content:"";position:absolute;left:50%;top:9px;transform:translateX(-50%);width:76px;height:20px;background:#0b0b12;border-radius:0 0 14px 14px;z-index:3}
 .tel .pant{position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#111}
 .nombre{position:absolute;left:50%;bottom:-2.4rem;transform:translateX(-50%);font-size:.85rem;color:var(--gris);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
-@media (max-width:820px){.portatil{width:100%}.celda{height:auto;min-height:420px}}
+@media (max-width:820px){
+  .hero > .celda{height:auto;min-height:0;margin-top:2.5rem}
+  .portatil{width:100%}
+  .portatil .tapa{border-radius:12px 12px 3px 3px;padding:8px 8px 10px}
+  .tel{width:min(190px,52vw)}
+  .nombre{bottom:-1.9rem;font-size:.75rem}
+}
 .hero h1{font-weight:300;font-size:clamp(2rem,4.2vw,4.2rem);line-height:1.22;max-width:26ch;letter-spacing:-.01em}
 .hero .h2{margin-top:1.4rem;font-size:clamp(1.3rem,2.2vw,2.2rem);line-height:1.35;max-width:34ch;color:var(--gris)}
 .hero .h2 b{color:var(--tinta)}
@@ -124,6 +132,32 @@ footer{padding:2.6rem var(--margen);font-size:.85rem;letter-spacing:.14em;text-t
 .linea{position:fixed;pointer-events:none;z-index:0;background:rgba(28,28,30,.16)}.linea.h{height:1px;left:0;top:0}.linea.v{width:1px;left:0;top:0}
 .hero,section,footer{position:relative;z-index:1}
 @media (prefers-reduced-motion:reduce){.revela{opacity:1;transform:none}.baja{animation:none}}
+/* ── MÓVIL ─────────────────────────────────────────────────────── */
+/* Sin ratón no hay "pasar por encima": las capturas van en color desde el principio. */
+@media (hover:none){
+  .web .marco img{filter:none !important;transform:none !important}
+  .baja{display:none}                                   /* el flotante de WhatsApp manda; dos botones abajo se pisan */
+  .flot{right:1rem;bottom:1rem;padding:1rem 1.4rem;font-size:1.05rem}
+}
+@media (max-width:820px){
+  .baja{display:none}
+  .cab{padding:1rem var(--margen);font-size:.8rem}
+  .hero{padding:13vh var(--margen) 6vh}
+  .hero h1{font-size:clamp(1.8rem,7vw,2.6rem)}
+  .hero .h2{font-size:clamp(1.15rem,4.6vw,1.6rem)}
+  .web{padding:8vh var(--margen)}
+  .web h2{font-size:clamp(1.5rem,6vw,2.1rem)}
+  .bloque{padding:9vh var(--margen)}
+  .bloque h2{font-size:clamp(1.6rem,6.4vw,2.2rem)}
+  .bloque h3{font-size:clamp(1.3rem,5.4vw,1.8rem)}
+  .lista li{padding:1.1rem 0;gap:.4rem}
+  .lista li b{font-size:1.15rem}
+  .chat{min-height:0}
+  .bur{max-width:100%}
+  .opc button,.escribe input,.escribe button{font-size:1rem}
+  .charla{gap:.6rem}
+  footer{flex-direction:column;gap:.6rem}
+}
 </style>
 </head>
 <body>
@@ -131,7 +165,7 @@ footer{padding:2.6rem var(--margen);font-size:.85rem;letter-spacing:.14em;text-t
 <div class="baja" id="baja" aria-hidden="true"><span>Scroll</span><i></i></div>
 <a class="flot" href="https://wa.me/34900000000" target="_blank" rel="noopener">💬 Write to us</a>
 
-<header class="cab"><a class="marca" href="#">Negocio</a><nav><a href="#webs">Websites</a><a href="#herramientas">Tools</a><a href="#como">How it works</a><a href="#escribir">Write to us</a><span class="idioma"><a href="../es/" class="" data-idioma="es">ES</a><a href="../en/" class="on" data-idioma="en">EN</a></span></nav></header>
+<header class="cab"><a class="marca" href="#">Negocio</a><nav><a href="#webs">Websites</a><a href="#herramientas">Tools</a><a href="#como">How it works</a><a href="#escribir">Write to us</a><a href="#escribir" class="cta-cab">Write to us</a><span class="idioma"><a href="../es/" class="" data-idioma="es">ES</a><a href="../en/" class="on" data-idioma="en">EN</a></span></nav></header>
 
 <section class="hero">
   <div>
@@ -141,7 +175,7 @@ footer{padding:2.6rem var(--margen);font-size:.85rem;letter-spacing:.14em;text-t
     <p class="orden">Scroll and find what looks like yours. ↓</p>
   </div>
   <div class="celda">
-    <div class="portatil" id="portatil"><div class="tapa"><div class="pant"><img src="../img/experiencia.jpg" alt="" data-id="experiencia" class="on"><img src="../img/cinematica.jpg" alt="" data-id="cinematica" class=""><img src="../img/corporativa.jpg" alt="" data-id="corporativa" class=""><img src="../img/galeria.jpg" alt="" data-id="galeria" class=""><img src="../img/lateral.jpg" alt="" data-id="lateral" class=""></div></div><div class="base"></div><span class="nombre" id="nombreTel"></span></div>
+    <div class="portatil" id="portatil"><div class="tapa"><div class="pant"><img src="../img/experiencia.jpg" alt="" data-id="experiencia" class="on"><img src="../img/catalogo.jpg" alt="" data-id="catalogo" class=""><img src="../img/cinematica.jpg" alt="" data-id="cinematica" class=""><img src="../img/corporativa.jpg" alt="" data-id="corporativa" class=""><img src="../img/galeria.jpg" alt="" data-id="galeria" class=""><img src="../img/lateral.jpg" alt="" data-id="lateral" class=""></div></div><div class="base"></div><span class="nombre" id="nombreTel"></span></div>
     <div class="tel fuera" id="telefono"><div class="pant"><img src="../img/isometrica_movil.jpg" alt="" class="on"></div></div>
   </div>
 </section>
@@ -153,32 +187,38 @@ footer{padding:2.6rem var(--margen);font-size:.85rem;letter-spacing:.14em;text-t
     <small>This is a sample. We make it with your photos, your words and your name.</small></div>
   <a class="marco" href="../experiencia/" target="_blank" rel="noopener"><img src="../img/experiencia.jpg" alt="" loading="lazy"></a>
 </section>
+<section class="web" id="w-catalogo">
+  <div><span class="num">2</span><h2 class="revela">Do you sell something and want orders online?</h2><p>Your products with photo and price, a search box, and an order that reaches you on WhatsApp already written. No commissions, no fuss: paid on pickup or delivery.</p>
+    <a class="boton" href="../catalogo/" target="_blank" rel="noopener">See how it would look →</a>
+    <small>This is a sample. We make it with your photos, your words and your name.</small></div>
+  <a class="marco" href="../catalogo/" target="_blank" rel="noopener"><img src="../img/catalogo.jpg" alt="" loading="lazy"></a>
+</section>
 <section class="web movil" id="w-isometrica">
-  <div><span class="num">2</span><h2 class="revela">Do you have a shop or sell a product?</h2><p>Your shop on the phone, with people walking in, to show what you sell in a way people remember.</p>
+  <div><span class="num">3</span><h2 class="revela">Want your business to look like no one else's?</h2><p>Your place on the phone, with people walking in and out. People show it to their friends, and that's advertising you don't pay for.</p>
     <a class="boton" href="../isometrica/" target="_blank" rel="noopener">See how it would look →</a>
     <small>This is a sample. We make it with your photos, your words and your name.</small></div>
   <a class="marco" href="../isometrica/" target="_blank" rel="noopener"><img src="../img/isometrica_movil.jpg" alt="" loading="lazy"></a>
 </section>
 <section class="web" id="w-cinematica">
-  <div><span class="num">3</span><h2 class="revela">Want to impress? A tattoo studio, a brand, an artist?</h2><p>Your story told like a film: read by scrolling, with music and your images.</p>
+  <div><span class="num">4</span><h2 class="revela">Want to impress? A tattoo studio, a brand, an artist?</h2><p>Your story told like a film: read by scrolling, with music and your images.</p>
     <a class="boton" href="../cinematica/" target="_blank" rel="noopener">See how it would look →</a>
     <small>This is a sample. We make it with your photos, your words and your name.</small></div>
   <a class="marco" href="../cinematica/" target="_blank" rel="noopener"><img src="../img/cinematica.jpg" alt="" loading="lazy"></a>
 </section>
 <section class="web" id="w-corporativa">
-  <div><span class="num">4</span><h2 class="revela">Are you a law firm, a clinic, an advisory?</h2><p>Seriousness without noise: they trust you before they call. Your numbers, your team, how you work.</p>
+  <div><span class="num">5</span><h2 class="revela">Are you a law firm, a clinic, an advisory?</h2><p>Seriousness without noise: they trust you before they call. Your numbers, your team, how you work.</p>
     <a class="boton" href="../corporativa/" target="_blank" rel="noopener">See how it would look →</a>
     <small>This is a sample. We make it with your photos, your words and your name.</small></div>
   <a class="marco" href="../corporativa/" target="_blank" rel="noopener"><img src="../img/corporativa.jpg" alt="" loading="lazy"></a>
 </section>
 <section class="web" id="w-galeria">
-  <div><span class="num">5</span><h2 class="revela">Do you sell flats, cars, things that sell with photos?</h2><p>Your photos rule: each item with its gallery, its details and a filter to find it.</p>
+  <div><span class="num">6</span><h2 class="revela">Do you sell flats, cars, things that sell with photos?</h2><p>Your photos rule: each item with its gallery, its details and a filter to find it.</p>
     <a class="boton" href="../galeria/" target="_blank" rel="noopener">See how it would look →</a>
     <small>This is a sample. We make it with your photos, your words and your name.</small></div>
   <a class="marco" href="../galeria/" target="_blank" rel="noopener"><img src="../img/galeria.jpg" alt="" loading="lazy"></a>
 </section>
 <section class="web" id="w-lateral">
-  <div><span class="num">6</span><h2 class="revela">Want something nobody else has?</h2><p>A website that is a game: you walk it, discover it and don't forget it.</p>
+  <div><span class="num">7</span><h2 class="revela">Want something nobody else has?</h2><p>A website that is a game: you walk it, discover it and don't forget it.</p>
     <a class="boton" href="../lateral/" target="_blank" rel="noopener">See how it would look →</a>
     <small>This is a sample. We make it with your photos, your words and your name.</small></div>
   <a class="marco" href="../lateral/" target="_blank" rel="noopener"><img src="../img/lateral.jpg" alt="" loading="lazy"></a>
@@ -265,7 +305,7 @@ footer{padding:2.6rem var(--margen);font-size:.85rem;letter-spacing:.14em;text-t
     (async () => { await bot(D.hola, "wave"); opciones([D.empezar], () => { empezado = true; paso = 0; pregunta(); }); })();
   })();
   // la portada pasa las webs: el portatil las de ordenador, y en el turno de la tienda se apaga y aparece el telefono
-  { const ims=[...document.querySelectorAll(".portatil .pant img")], n=document.getElementById("nombreTel"), N={"experiencia": "Business", "isometrica": "Shop", "cinematica": "Cinematic", "corporativa": "Corporate", "galeria": "Gallery", "lateral": "Level"}, L=["experiencia", "isometrica", "cinematica", "corporativa", "galeria", "lateral"], port=document.getElementById("portatil"), tel=document.getElementById("telefono"); let i=0; n.textContent=N[L[0]];
+  { const ims=[...document.querySelectorAll(".portatil .pant img")], n=document.getElementById("nombreTel"), N={"experiencia": "Business", "isometrica": "Shop", "cinematica": "Cinematic", "corporativa": "Corporate", "galeria": "Gallery", "lateral": "Level"}, L=["experiencia", "catalogo", "isometrica", "cinematica", "corporativa", "galeria", "lateral"], port=document.getElementById("portatil"), tel=document.getElementById("telefono"); let i=0; n.textContent=N[L[0]];
     setInterval(()=>{ i=(i+1)%L.length; const id=L[i], movil = id==="isometrica"; n.textContent=N[id]; if (!movil) ims.forEach(im => im.classList.toggle("on", im.dataset.id===id)); port.classList.toggle("fuera", movil); tel.classList.toggle("fuera", !movil); }, 4000); }
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   gsap.registerPlugin(ScrollTrigger);

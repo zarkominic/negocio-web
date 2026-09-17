@@ -77,3 +77,24 @@ h3{font-size:clamp(1.25rem,1.6vw,1.6rem);font-weight:500;font-variation-settings
 footer{padding:2rem var(--margen);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.85rem;color:var(--gris);border-top:1px solid var(--linea)}
 footer nav a{margin-left:1.4rem}
 @media (prefers-reduced-motion:reduce){.revela{opacity:1;transform:none}.hero .foto img{transform:none}}
+
+/* ── MÓVIL ── sin ratón no hay hover: fotos en color y nada que dependa de pasar por encima */
+@media (hover:none){
+  .equipo img{filter:none}
+  .servicios .flecha,.insights .flecha{opacity:1}
+  .servicios li:hover{padding-left:0}
+}
+@media (max-width:820px){
+  .cab{padding:1rem var(--margen);font-size:.85rem}
+  .hero-texto{padding-bottom:6vh}
+  .hero-pie{gap:1.2rem;font-size:.75rem;flex-wrap:wrap}
+  .bloque{padding:6rem var(--margen)}
+  .bloque-cab{margin-bottom:2.4rem}
+  .servicios li{gap:1rem;padding:1.4rem 0}
+  .casos article{padding:2rem 1.4rem}
+  .insights a{grid-template-columns:1fr;gap:.3rem;padding:1.1rem 0}
+  .insights .titulo{font-size:1.2rem}
+  .pasos li{grid-template-columns:2.4rem 1fr;gap:1rem}
+  footer{flex-direction:column;gap:.8rem}
+  footer nav a{margin:0 1.2rem 0 0}
+}
